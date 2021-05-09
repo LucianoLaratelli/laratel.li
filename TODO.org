@@ -1,0 +1,5 @@
+#+TITLE: TODO
+
+* TODO set up redirects from laratelli.com ->
+* TODO =next post= and =previous post= buttons on each post page
+* TODO link to pgp public key on server, update link in pages.cljs

@@ -1,0 +1,14 @@
+{:source-paths ["src" "resources" "tests"]
+ :dependencies [[com.kiranshila/cybermonday "0.4.158"]
+                [metosin/reitit "0.5.15"]
+                [reagent "1.1.0"]]
+ :builds {:laratelli
+          {:target :browser
+           :output-dir "public/js"
+           :asset-path "js"
+           :modules {:main {:init-fn laratelli.frontend/main}}
+           :devtools {:http-root "public"
+                      :http-port 3000
+                      :repl-init-ns laratelli.frontend
+                      :repl-pprint true}
+           :compiler-options {:output-feature-set :es2020}}}}
