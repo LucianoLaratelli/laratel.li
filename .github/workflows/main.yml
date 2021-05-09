@@ -1,0 +1,42 @@
+name: Deploy laratel.li
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checking out blog
+        uses: actions/checkout@v2
+
+      - uses: c-hive/gha-yarn-cache@v2
+
+      - name: Setting up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      # https://stackoverflow.com/a/59482124
+      - name: Set up npmrc
+        run: 'echo "$NPMRC" > ~/.npmrc'
+        shell: bash
+        env:
+          NPMRC: ${{secrets.NPM_RC}}
+
+      - name: Installing dependencies
+        run: yarn install
+
+      - name: Building site
+        run: yarn shadow-cljs release laratelli
+
+      - name: Installing SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+      - name: Deploying
+        run: rsync -avz ./public/ luciano@laratel.li:/home/luciano/docker/config/web_root/laratel.li

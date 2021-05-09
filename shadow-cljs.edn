@@ -1,0 +1,19 @@
+{:source-paths ["src" "resources" "tests"]
+
+ :dependencies [[com.kiranshila/cybermonday "0.4.158"]
+                [com.teknql/shadow-cljs-tailwind-jit "0.2.0"]
+                [instaparse "1.4.10"]
+                [metosin/reitit "0.5.13"]
+                [reagent "1.0.0"]]
+
+ :builds {:laratelli
+          {:target :browser
+           :output-dir "public/js"
+           :asset-path "js"
+           :modules {:main {:init-fn laratelli.frontend/main}}
+           :devtools {:http-root "public"
+                      :http-port 3000}
+           :compiler-options {:output-feature-set :es2020
+                              :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}}
+           :build-options
+           {:cache-level :off}}}}

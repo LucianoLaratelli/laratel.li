@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@dracula/dracula-ui": "^0.8.1",
+    "@matejmazur/react-katex": "^3.1.3",
+    "browserslist": "^4.16.8",
+    "caniuse-lite": "^1.0.30001252",
+    "html-entities": "2.3.2",
+    "katex": "^0.13.16",
+    "postcss": "^8.3.6",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-syntax-highlighter": "^15.4.4",
+    "remark": "14.0.1",
+    "remark-footnotes": "4.0.1",
+    "remark-gfm": "2.0.0",
+    "remark-math": "5.1.0",
+    "remark-parse": "10.0.0",
+    "shadow-cljs": "^2.15.5",
+    "unified": "10.1.0",
+    "yaml": "1.10.2"
+  },
+  "devDependencies": {
+    "prettier": "2.5.1"
+  }
+}

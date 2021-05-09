@@ -1,0 +1,10 @@
+#+TITLE: TODO
+
+* TODO get the auto resizing working with uhhh everything
+* TODO convert all posts to org
+* TODO link to pgp public key on server, update link in pages.cljs
+* TODO sort by date (use =sort-by :date (blog-posts _)=)
+* TODO clean up, reorganize
+* TODO customize lowering functions
+* TODO "next" and "prev" buttons on each posts
+* TODO make header lowering function add a divider before the header whose color is a chain (use =cycle=)
