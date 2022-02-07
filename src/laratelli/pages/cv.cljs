@@ -203,7 +203,7 @@
    (skills-list "Computer Languages" (vector "Bash" "C" "C++" "Clojure(Script)" "Objective-C" "Python" "SQL" "Swift"))
    (skills-list "Computer Platforms and Frameworks" (vector "CUDA" "MPI" "SwiftUI"))
    (skills-list "Software Engineering Tools" (vector "CMake" "docker (and compose)" "emacs" "gdb" "git" "vim" "Xcode"))
-   (skills-list "Software Engineering Tools" (vector "English (Native)" "Spanish (Native)"))
+   (skills-list "Spoken Languages" (vector "English (Native)" "Spanish (Native)"))
    [:> drac/Heading {:size "L"} "Operating Systems"]
    [:> drac/Text
     "I used to be pretty handy with Arch and other Linux distributions. These
