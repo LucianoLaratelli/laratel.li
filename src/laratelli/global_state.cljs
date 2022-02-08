@@ -12,4 +12,4 @@
 (defonce match (r/atom nil))
 
 ;dispatch_once equivalent
-(defonce didInitRoutes (r/atom false))
+(defonce didPerformInitialSetup (r/atom false))

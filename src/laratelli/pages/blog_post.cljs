@@ -7,14 +7,21 @@
    [laratelli.lowering :refer [default-attrs lower-fns]]
    [reitit.frontend.easy :as rfe]))
 
-(defn back-to-posts
-  [ref]
+(defn post-link
+  [ref title]
   [:> drac/Button
-   {:size "xs"
-    :variant "ghost"
-    :as "a"
-    :href (rfe/href ref)}
-   "<- to posts"])
+   (merge {:size "xs"
+           :as "a"
+           :variant "outline"
+           :style {:margin-right "1em"}}
+          (if (nil? ref)
+            {:disabled "{true}"
+             :color "blackSecondary"}
+            {:href ref}))
+   (case title
+     :next "Next Post"
+     :prev "Previous Post"
+     :back "All Posts")])
 
 (defn get-top-header-text [md]
   (let [headers
@@ -28,17 +35,22 @@
   "An actual blog post."
   [match]
   (let [id (get-in match [:parameters :path :id])
-        ref (get-in match [:data :ref])
+        posts-page (get-in match [:data :posts-page])
         post-info ((keyword (str id)) @global-state/post-data)
         title (:title post-info)
         date (:datestr post-info)
         md (:md post-info)
+        links (get @global-state/post-links id)
+        prev (:prev links)
+        next (:next links)
         ;; TODO: use this later to make a jump bar to headers
         ;; headers (get-top-header-text md)
         ]
     [:div [:> drac/Heading {:size "xl"} title]
      [:> drac/Heading {:size "md"} date]
-     (back-to-posts ref)
+     (post-link (rfe/href posts-page) :back)
+     (post-link prev :prev)
+     (post-link next :next)
      [:> drac/Divider {:color "purple"}]
      (cmu/cleanup
       (lower/to-html-hiccup md {:lower-fns lower-fns :default-attrs default-attrs}))

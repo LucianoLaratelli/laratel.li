@@ -15,18 +15,27 @@
             [reitit.frontend.easy :as rfe])
   (:require-macros [laratelli.parsed-posts :refer [parsed-posts]]))
 
-(defn get-links [posts]
-  (map-indexed
-   (fn [idx _]
-     (cond
-       (= idx 0)
-       {:next (rfe/href (get routes/refs :post) {:id (:id (nth posts (+ idx 1)))})}
-       (= idx (- (count posts) 1))
-       {:prev (rfe/href (get routes/refs :post) {:id (:id (nth posts (- idx 1)))})}
-       :else
-       {:prev (rfe/href (get routes/refs :post) {:id (:id (nth posts (- idx 1)))})
-        :next (rfe/href (get routes/refs :post) {:id (:id (nth posts (+ idx 1)))})}))
-   posts))
+(defn get-links
+  "Determine which posts come before and after which other post. This'll get used
+  on blog post pages to provide access to other posts from each post's page."
+  [posts]
+  (into {}
+        (map-indexed
+         (fn [idx _]
+           (let [id (:id (nth posts idx))
+                 next (+ idx 1)
+                 prev (- idx 1)
+                 post (get routes/refs :post)
+                 ref (fn [id] (rfe/href post {:id (:id id)}))]
+             {id (cond (= idx 0)
+                       {:next (ref (nth posts next))}
+                       (= idx (- (count posts) 1))
+                       {:prev (ref (nth posts prev))}
+                       :else
+                       {:prev (ref (nth posts prev))
+                        :next (ref (nth posts next))})}))
+
+         posts)))
 
 (defn current-page
   "I only want pages that aren't blog posts to show the tab bar; blog posts omit
@@ -37,7 +46,7 @@
   ;I only want this to run once, but if it's in main it makes development a
   ;pain. I guess I could setup a stop! or something but I went with this
   ;instead.
-  (when (not @global-state/didInitRoutes)
+  (when (not @global-state/didPerformInitialSetup)
     ;Attach an href to each post. This gets used when displaying post metadata
     ;outside of a blog_post page, so that I can link to the post.
     (reset! global-state/post-data
@@ -49,7 +58,7 @@
 
     (reset! global-state/post-links (get-links (vals @global-state/post-data)))
 
-    (reset! global-state/didInitRoutes true))
+    (reset! global-state/didPerformInitialSetup true))
 
   [:> drac/Box {:width "auto"}
    (when (not (= "id" (last (s/split (:template @global-state/match) ":"))))

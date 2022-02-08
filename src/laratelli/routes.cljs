@@ -38,5 +38,4 @@
      {:name ::post
       :view blog-post
       :parameters {:path {:id string?}}
-      :ref ::posts}]]])
-      ;; :data back-to-posts
+      :posts-page ::posts}]]])
