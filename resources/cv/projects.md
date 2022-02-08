@@ -4,13 +4,15 @@
 
 ### [laratel.li](https://github.com/lucianolaratelli/laratel.li)
 
-This site! It's built in almost entirely in Clojurescript, with no backend. A
-few simple Clojure macros support reading files off the filesystem. I owe a lot
-to my friend Kiran's excellent
-[`CyberMonday`](https://github.com/kiranshila/cybermonday) library and copied a
-lot of what he's doing on his [blog](https://blog.kiranshila.com/). Thanks
-Kiran! My thanks to [Dracula UI](https://draculatheme.com/ui) as well for making
-it easy to make this site pretty.
+This site! It's built almost entirely in Clojurescript; some macros in Clojure
+land read files off the filesystem, but otherwise there's no backend whatsoever.
+
+I owe a lot to my friend Kiran's excellent
+[`CyberMonday`](https://github.com/kiranshila/cybermonday) library. I must admit
+I stole his code block CSS and some of the CyberMonday-specific things from his
+[blog](https://blog.kiranshila.com/). Thanks Kiran!
+
+I used [Dracula UI](https://draculatheme.com/ui) to style the site.
 
 I host it on a DigitalOcean droplet, using `docker-compose` with these containers:
 
