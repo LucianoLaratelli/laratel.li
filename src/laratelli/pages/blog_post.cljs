@@ -7,6 +7,14 @@
    [laratelli.lowering :refer [default-attrs lower-fns]]
    [reitit.frontend.easy :as rfe]))
 
+(defn get-top-header-text [md]
+  (let [headers
+        (->> md
+             (filter seqable?)
+             (filter #(and (= (first %) :markdown/heading)
+                           (= (:level (second %)) 1))))]
+    (map #(nth % 2) headers)))
+
 (defn post-link
   [ref title]
   [:> drac/Button
@@ -23,13 +31,11 @@
      :prev "Previous Post"
      :back "All Posts")])
 
-(defn get-top-header-text [md]
-  (let [headers
-        (->> md
-             (filter seqable?)
-             (filter #(and (= (first %) :markdown/heading)
-                           (= (:level (second %)) 1))))]
-    (map #(nth % 2) headers)))
+(defn jump-buttons [all prev next]
+  [:div
+   (post-link (rfe/href all) :back)
+   (post-link prev :prev)
+   (post-link next :next)])
 
 (defn blog-post
   "An actual blog post."
@@ -48,10 +54,9 @@
         ]
     [:div [:> drac/Heading {:size "xl"} title]
      [:> drac/Heading {:size "md"} date]
-     (post-link (rfe/href posts-page) :back)
-     (post-link prev :prev)
-     (post-link next :next)
+     (jump-buttons posts-page prev next)
      [:> drac/Divider {:color "purple"}]
      (cmu/cleanup
       (lower/to-html-hiccup md {:lower-fns lower-fns :default-attrs default-attrs}))
-     [:> drac/Divider {:color "purple"}]]))
+     [:> drac/Divider {:color "purple"}]
+     (jump-buttons posts-page prev next)]))
