@@ -6,9 +6,9 @@
           {:target :browser
            :output-dir "public/js"
            :asset-path "js"
-           :modules {:main {:init-fn laratelli.frontend/main}}
+           :modules {:main {:init-fn laratelli.core/main}}
            :devtools {:http-root "public"
                       :http-port 3000
-                      :repl-init-ns laratelli.frontend
+                      :repl-init-ns laratelli.core
                       :repl-pprint true}
            :compiler-options {:output-feature-set :es2020}}}}

@@ -1,7 +1,7 @@
-(ns laratelli.frontend
-  "Frontend for laratel.li. Main dispatches based on the routes in laratelli.routes.
-  Routes reads from the page components in laratelli.pages to actually build the site.
-  Blog posts are markdown stored in resources/blog.
+(ns laratelli.core
+  "Main dispatches based on the routes in laratelli.routes.
+  Routes reads from the page components in laratelli.pages to actually build the
+  site. Blog posts are markdown stored in resources/blog.
   "
   (:require ["@dracula/dracula-ui" :as drac]
             [clojure.string :as s]
