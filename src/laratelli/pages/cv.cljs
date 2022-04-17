@@ -115,49 +115,81 @@
     models (particularly mice, but also some rats), where I studied the effects
     of a novel compound against specific types of lung cancers.")])
 
-(defn cv []
+(defn work-experience [employer title date location description]
   [:div
-   [:> drac/Heading {:size "xl"}
-    "Professional Work Experience"]
    [:> drac/Heading {:size "L"}
-    "Flexibits, Inc."]
+    employer]
    [:> drac/List {:style {:padding-left 0
                           :margin -1}}
 
     [:li {:style {:margin-top ".5em"
-                  :margin-bottom ".5em"}}
+                  :margin-bottom ".5em"}
+          :key "title"}
      [:> drac/Badge {:variant "outline" :color "animated"
                      :m "xs" :style {:margin-left "0em"
                                      :padding-left 6
                                      :padding-right 6
                                      :padding-top 8
                                      :padding-bottom 2}}
-      "Software Engineer"]]
+      title]]
     [:li
      {:style {:margin-top ".5em"
-              :margin-bottom ".5em"}}
+              :margin-bottom ".5em"}
+      :key "date"}
      [:> drac/Badge {:variant "subtle" :color "orange"
                      :m "xs" :style {:margin-left "0em"
                                      :padding-left 6
                                      :padding-right 6
                                      :padding-top 8
                                      :padding-bottom 2}}
-      "March 2021 -> Present"]]
+      date]]
     [:li
      {:style {:margin-top ".5em"
-              :margin-bottom ".5em"}}
+              :margin-bottom ".5em"}
+      :key "location"}
      [:> drac/Badge {:variant "normal" :color "purpleCyan"
                      :m "xs" :style {:margin-left "0em"
                                      :padding-left 6
                                      :padding-right 6
                                      :padding-top 8
                                      :padding-bottom 2}}
-      "Remote"]]]
-   [:> drac/Text
-    " I work on Fantastical and Cardhop for both mac and iOS. I'm the main
-    developer working on Fantastical for the Apple Watch, and maintain our
-    Shortcuts since migrating them to macOS. Lots of Objective-C with a little
-    bit of Swift and SwiftUI sprinkled in."]
+      location]]]
+   [:> drac/Box
+    {:key description}
+    (map (fn [par]
+           [:> drac/Paragraph
+            {:key par}
+            par]) description)]])
+
+(defn cv []
+  [:div
+   [:> drac/Heading {:size "xl"}
+    "Professional Work Experience"]
+
+   (work-experience "Flexibits, Inc."
+                    "Software Engineer"
+                    "March 2021 -> April 2022"
+                    "Remote"
+                    ["Mainly an Objective C role (with some Swift) working on
+                    Fantastical and Cardhop for macOS, iOS, iPadOS, and
+                    watchOS."
+                     "I was the main developer working on Fantastical for the
+                    Apple Watch, and maintained Fantastical's Shortcuts since
+                    implementing them for macOS. I implemented a lot of the new
+                    features Apple introduced in 2021: Quick Note, Shortcuts on
+                    macOS, time-sensitive notifications, and privacy-sensitive
+                    widgets."
+                     "Some examples of my work on the UI side are fixing the
+                    bugs introduced by watchOS8 and iOS 15, adding support for
+                    item creation and list refresh on the Watch, and
+                    implementing context menus for item templates."
+                     "On the business logic side, I implemented new API
+                    integrations for Microsoft Graph and Google People, debugged
+                    and resolved complex sync bugs between iOS and watchOS,
+                    extended Fantastical's parser, dealt with bugs regarding
+                    event ordering on the Watch, added new AppleScript
+                    functionality, and implemented custom week numbering."])
+
    [:> drac/Divider {:color "orange"}]
    [:> drac/Heading {:size "XL"} "Skills"]
    (cv-components/skills-list "Computer Languages" (vector "Bash" "C" "C++" "Clojure(Script)" "Objective-C" "Python" "SQL" "Swift"))
