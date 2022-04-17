@@ -130,7 +130,7 @@
                      :m "xs" :style {:margin-left "0em"
                                      :padding-left 6
                                      :padding-right 6
-                                     :padding-top 2
+                                     :padding-top 8
                                      :padding-bottom 2}}
       "Software Engineer"]]
     [:li
@@ -140,7 +140,7 @@
                      :m "xs" :style {:margin-left "0em"
                                      :padding-left 6
                                      :padding-right 6
-                                     :padding-top 2
+                                     :padding-top 8
                                      :padding-bottom 2}}
       "March 2021 -> Present"]]
     [:li
@@ -150,7 +150,7 @@
                      :m "xs" :style {:margin-left "0em"
                                      :padding-left 6
                                      :padding-right 6
-                                     :padding-top 2
+                                     :padding-top 8
                                      :padding-bottom 2}}
       "Remote"]]]
    [:> drac/Text

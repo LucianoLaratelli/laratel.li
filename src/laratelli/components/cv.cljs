@@ -12,7 +12,7 @@
   (let [style {:margin-left "0em"
                :padding-left 6
                :padding-right 6
-               :padding-top 2
+               :padding-top 8
                :padding-bottom 2}]
 
     [:> drac/List {:style {:padding-left 0
