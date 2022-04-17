@@ -51,7 +51,7 @@
   [:div {:style {:padding-bottom "1em"}}
    [:> drac/Heading {:size "l"}
     title]
-   [:> drac/Text description]])
+   [:> drac/Paragraph description]])
 
 (defn education-heading [degree [institution graduation-date location]]
   [:div {:style {:padding-bottom "1em"}}

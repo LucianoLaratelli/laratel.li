@@ -38,7 +38,7 @@
    [:div {:style {:padding-bottom "1em"}}
     [:> drac/Heading {:size "l"}
      "Other"]
-    [:> drac/Text "I completed eighteen credit hours in the Ph.D. Chemistry
+    [:> drac/Paragraph "I completed eighteen credit hours in the Ph.D. Chemistry
     program at USF between August 2018 and May 2019, focusing on research in
     computational chemistry. I decided to transfer into the Computer Science
     program sometime during the spring of 2019, and began taking classes for
@@ -165,7 +165,7 @@
    (cv-components/skills-list "Software Engineering Tools" (vector "CMake" "docker (and compose)" "emacs" "gdb" "git" "vim" "Xcode"))
    (cv-components/skills-list "Spoken Languages" (vector "English (Native)" "Spanish (Native)"))
    [:> drac/Heading {:size "L"} "Operating Systems"]
-   [:> drac/Text
+   [:> drac/Paragraph
     "I used to be pretty handy with Arch and other Linux distributions. These
     days I spend most of my time in macOS unless I'm working with my servers,
     which all run Ubuntu. I've (of course) used Windows, but not for any serious
