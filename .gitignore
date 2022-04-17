@@ -52,7 +52,6 @@ out/*
 package-lock.json
 pom.xml
 pom.xml.asc
-public/css/dracula-ui.css
 public/js/*
 resources/brepl_client.js
 resources/public/*
