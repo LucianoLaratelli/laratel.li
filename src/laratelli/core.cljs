@@ -77,3 +77,7 @@
    (fn [m] (reset! global-state/match m))
    {:use-fragment true})
   (reagent.dom/render [current-page] (.getElementById js/document "app")))
+
+(defn ^:dev/after-load after-load
+  []
+  (main))
