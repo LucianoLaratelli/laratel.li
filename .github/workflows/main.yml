@@ -71,7 +71,7 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
       - name: Deploying
-        run: "rsync -avz ./public/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH"
+        run: "rsync -avz --copy-links ./public/ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH"
         env:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
