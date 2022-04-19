@@ -59,6 +59,7 @@
   ; hot-reload the frontend when I change the markdown is worth the extra two
   ; seconds per blog post.
   (vector
+   (rc/inline "blog/mu4e_doom_emacs.md")
    (rc/inline "blog/github_merging_PRs.md")
    (rc/inline "blog/lammps-system-dipole.md")
    (rc/inline "blog/lammps-total-velocities.md")
