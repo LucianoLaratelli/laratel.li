@@ -166,6 +166,12 @@
    [:> drac/Heading {:size "xl"}
     "Professional Work Experience"]
 
+   (work-experience "Dwolla"
+                    "Software Engineer"
+                    "April 2022 -> Present"
+                    "Remote"
+                    ["Scala-based role on the team that works on integrating
+                    financial institutions into the Dwolla ecosystem."])
    (work-experience "Flexibits, Inc."
                     "Software Engineer"
                     "March 2021 -> April 2022"
