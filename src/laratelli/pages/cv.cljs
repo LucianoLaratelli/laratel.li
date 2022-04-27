@@ -198,7 +198,7 @@
 
    [:> drac/Divider {:color "orange"}]
    [:> drac/Heading {:size "XL"} "Skills"]
-   (cv-components/skills-list "Computer Languages" (vector "Bash" "C" "C++" "Clojure(Script)" "Objective-C" "Python" "SQL" "Swift"))
+   (cv-components/skills-list "Computer Languages" (vector "Bash" "C" "C++" "Clojure(Script)" "Python" "SQL"))
    (cv-components/skills-list "Computer Platforms and Frameworks" (vector "CUDA" "MPI" "SwiftUI"))
    (cv-components/skills-list "Software Engineering Tools" (vector "CMake" "docker (and compose)" "emacs" "gdb" "git" "vim" "Xcode"))
    (cv-components/skills-list "Spoken Languages" (vector "English (Native)" "Spanish (Native)"))
