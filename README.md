@@ -8,9 +8,10 @@ This is my blog.
 ## Build
 
 ```shell
-mkdir ~/repos
-git clone https://github.com/LucianoLaratelli/laratel.li.git ~/repos
-cd ~/repos/laratel.li
+mkdir -p ~/repos
+cd ~/repos
+git clone https://github.com/LucianoLaratelli/laratel.li.git
+cd ~/laratel.li
 yarn install
 ```
 
