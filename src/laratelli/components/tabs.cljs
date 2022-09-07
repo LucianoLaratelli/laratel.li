@@ -13,10 +13,8 @@
 
 (defn make-tabs [active-tab]
   (let [tabs ["home"
-              ;; "about"
               "contact" "cv" "posts"]
         tab-colors {"home" "purple"
-                    "about" "red"
                     "contact" "yellow"
                     "cv" "green"
                     "posts" "cyan"}]
