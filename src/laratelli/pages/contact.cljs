@@ -44,8 +44,11 @@
 
 (defn contact []
   [:div
-   [:div {:class "test-class"}
+   [:div
     [:> drac/Paragraph
-     "Luciano Laratelli is a software developer, dog parent, and all-around regular guy living in "
-     [:> drac/Text {:color "yellowPink"} "Miami Beach"] ", Florida."]]
+     "I'm Luciano, a software developer, dog parent, and all-around regular guy living in "
+     [:> drac/Text {:color "yellowPink"} "Miami Beach"] ", Florida. In my free
+   time I like to cycle around the Beach, lift weights, listen to music, walk
+   the aforementioned dog, and read. I also do a bit of recreational programming
+   and server management."]]
    social-media-row])
