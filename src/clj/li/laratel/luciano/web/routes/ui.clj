@@ -1,0 +1,193 @@
+(ns li.laratel.luciano.web.routes.ui
+  (:require
+   [clojure.java.io :as io]
+   [clojure.tools.logging :as log]
+   [cpath-clj.core :as cpath]
+   [integrant.core :as ig]
+   [li.laratel.luciano.web.htmx :refer [page] :as htmx]
+   [li.laratel.luciano.web.middleware.exception :as exception]
+   [li.laratel.luciano.web.routes.lowering :as lowering]
+   [li.laratel.luciano.web.routes.utils :as utils]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [reitit.ring.middleware.parameters :as parameters]))
+
+(defn site-head [title description has-code?]
+  [:head
+   [:meta {:charset "UTF-8"}]
+   [:meta {:name "viewport"
+           :content "width=device-width, initial-scale=1.0"}]
+
+   [:meta {:name "author"
+           :content "Luciano Laratelli"}]
+
+   [:meta {:name "description"
+           :content description}]
+
+   [:title title]
+
+   (when has-code?
+     [:link {:rel "stylesheet"
+             :href "/style/gruvbox.css"}])
+   (when has-code?
+     [:script {:src "/style/highlight.min.js"}])
+   (when has-code?
+     [:script "hljs.highlightAll();"])
+
+   [:link {:rel "stylesheet"
+           :href "/style/neat.css"}]
+   [:link {:rel "stylesheet"
+           :href "/style/custom.css"}]
+   ;; goatcounter
+   [:script
+    {:data-goatcounter "https://stats.laratel.li/count",
+     :async "",
+     :src "//stats.laratel.li/count.js"}]])
+
+(defn pars [& paragraphs]
+  (apply vector :div (map (fn [par]
+                            (if (vector? par)
+                              (apply (partial vector :p) par)
+                              (vector :p par)))
+                          paragraphs)))
+
+(defn header []
+  [:div
+   [:h1 "Luciano Laratelli"]
+   [:nav
+    [:a.in-nav {:href "/"} "Home"]
+    [:a.in-nav {:href "/blog"} "Blog"]
+    [:a.in-nav {:href "/cv"} "CV"]
+    ;; [:a.in-nav {:href "/home-cooked"} "Programs"]
+    ;; [:a.in-nav {:href "/projects"} "Projects"]
+    ]])
+
+(defn site-page
+  "Wrapper for page to spread shared style everywhere.
+  `has-code?` tells us a page has source code on it, which should be higlighted.
+  We have to include the stylesheets for that, but we don't want to do that on
+  every page as its wasteful."
+  [title description has-code? & body]
+  (page
+
+   (site-head title description has-code?)
+
+   (header)
+
+   (apply vector :body body)))
+
+(defn home [_]
+  (site-page
+   "Luciano Laratelli"
+   ""
+   false
+   (pars
+    "Hello and welcome!"
+    "This is the personal website for me, Luciano Laratelli."
+    "I'm a software developer based out of Miami Beach. My technical interests
+    include functional programming, espcially in Clojure, as well as herding
+    Linux servers. I'm an Emacs enthusiast. Before I got into computers, I spent
+    far too much time thinking about chemistry."
+    ["You can reach me by email at " [:a {:href "mailto:luciano@laratel.li"} "luciano@laratel.li"] "."]
+    ["I publish open-source projects on both "
+     [:a {:href "https://git.sr.ht/~luciano/"} "SourceHut"]
+     " and "
+     [:a {:href "https://github.com/LucianoLaratelli/"} "GitHub"] "."]
+
+    ["I'm unfortunately on " [:a {:href "https://www.linkedin.com/in/luciano-laratelli-663851a1/"} "LinkedIn"] "."]
+
+    ["Interested in PGP? I'm on " [:a {:href "https://keybase.io/lucianolaratelli"} "Keybase"] ". "
+     "You can also " [:a {:href "/public-key.asc"} "view"] " my public key."]
+
+    ["This site is written in Clojure; its source code lives "
+     [:a {:href "https://git.sr.ht/~luciano/laratel.li"} "here"] ". I used " [:a
+                                                                              {:href "https://neat.joeldare.com/"} "neat.css"]
+     ", with some modifications. Blog post parsing made possible thanks to the
+     wonderful "
+     [:a {:href "https://github.com/kiranshila/cybermonday"} "cybermonday"] " library."])))
+
+(defn blog [request]
+  (let [{:keys [posts]} (utils/route-data request)
+        posts-by-date (update-vals (group-by :date-int posts) first)
+        ordered-dates (reverse (sort (keys posts-by-date)))]
+
+    (site-page
+     "Luciano Laratelli's Blog"
+     "Listing of Luciano Laratelli's blog posts"
+     nil
+     [:ul {:style {:list-style-position "inside"
+                   :padding-left 0}}
+
+      (for [date ordered-dates]
+        (let [{:keys [date-str title blog-post-id]} (get posts-by-date date)]
+          [:li
+           {:style
+            (str
+             "list-style-type:" "'" date-str " '")}
+
+           [:a {:href (str "/blog/" blog-post-id)} title]]))])))
+
+(defn blog-post [{{:keys [blog-post-id]} :path-params :as request}]
+  (let [{:keys [body title description date-str]}
+        (->> (utils/route-data request)
+             :posts
+             (filter (fn [post]
+                       (= (:blog-post-id post)
+                          blog-post-id)))
+             first)]
+
+    (site-page title description :has-code
+               [:div
+                [:h2 title]
+                [:h4 date-str]
+                [:p description]
+                [:hr]
+                body])))
+
+(defn cv [_]
+  (let [{:keys [body title date-str description]} (lowering/parse (slurp (io/resource "cv.md")))]
+    (site-page "CV" "Luciano Laratelli's Curriculum Vitae" nil
+               [:div
+                [:h2 title]
+                [:h4 "Last updated: " date-str]
+                [:p description]
+                body])))
+
+;; Routes
+(defn ui-routes [_opts]
+  [["/"
+    ["" {:get home}]
+
+    ["blog"
+     ["" {:get blog}]
+     ["/:blog-post-id" {:get blog-post
+                        :parameters {:path {:blog-post-id string?}}}]]
+
+    ["cv" {:get cv}]]])
+
+(defn route-data [opts]
+  (merge
+   opts
+   {:middleware
+    [;; Default middleware for ui
+     ;; query-params & form-params
+     parameters/parameters-middleware
+     ;; encoding response body
+     muuntaja/format-response-middleware
+     ;; exception handling
+     exception/wrap-exception]}))
+
+(derive :reitit.routes/ui :reitit/routes)
+
+(defmethod ig/init-key :reitit.routes/ui
+  [_ {:keys [base-path]
+      :or   {base-path ""}
+      :as   opts}]
+  [base-path (route-data opts) (ui-routes opts)])
+
+(defmethod ig/init-key :blog/posts
+  [_ _]
+  (for [[_ uris] (cpath/resources (clojure.java.io/resource "blog/"))
+        :let [uri (first uris)]]
+    (with-open [in (clojure.java.io/input-stream uri)]
+      (log/debug "parsing" uri)
+      (lowering/parse (slurp in)))))

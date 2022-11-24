@@ -1,3 +1,6 @@
-{:linters
- {:unsorted-required-namespaces {:level :warning}
-  :single-key-in {:level :warning}}}
+{:linters {:single-key-in {:level :warning}
+           :unresolved-var
+           {:exclude
+            [ring.util.http-response/content-type]}}
+ :lint-as {reagent.core/with-let clojure.core/let
+           ajax.macros/easy-api clojure.core/def}}

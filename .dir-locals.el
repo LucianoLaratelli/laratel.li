@@ -1,2 +1,2 @@
-((nil . ((cider-default-cljs-repl . shadow)
-         (cider-shadow-default-options . ":laratelli"))))
+((nil . ((cider-preferred-build-tool . clojure-cli)
+         (cider-clojure-cli-aliases . ":dev:test:cider"))))

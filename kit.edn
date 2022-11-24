@@ -1,0 +1,8 @@
+{:full-name "li.laratel/luciano"
+ :ns-name   "li.laratel.luciano"
+ :sanitized "li/laratel/luciano"
+ :name      "luciano"
+ :modules   {:root         "modules"
+             :repositories [{:url  "https://github.com/kit-clj/modules.git"
+                             :tag  "master"
+                             :name "kit-modules"}]}}

@@ -76,7 +76,7 @@ ret i32 0
 
 Instead of writing a whole output pass (see [here](https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl08.html) for that,) we can throw the output IR into a file `test.ll` and compile it with `clang`:
 
-```terminfo
+```shell
 $ clang test.ll
 warning: overriding the module target triple with x86_64-pc-linux-gnu [-Woverride-module]
 1 warning generated.
@@ -97,4 +97,4 @@ Of course, a program won't only have one print statement in it! Using the exampl
 ...
 ```
 
-I haven't resolved this issue in my own code base yet. I did attempt having the `formatStr` variable be global, but this was causing seg faults in the `CreateGlobalStringPtr` method. It seems like the [-constmerge](https://llvm.org/docs/Passes.html#constmerge-merge-duplicate-global-constants) transform pass handles this, but I have yet to implement any passes in my compiler beyond the one that emits object code.
+I haven't resolved this issue in my own code base yet. I did attempt having the `formatStr` variable be global, but this was causing seg faults in the `CreateGlobalStringPtr` method. It seems like the [constmerge](https://llvm.org/docs/Passes.html#constmerge-merge-duplicate-global-constants) transform pass handles this, but I have yet to implement any passes in my compiler beyond the one that emits object code.

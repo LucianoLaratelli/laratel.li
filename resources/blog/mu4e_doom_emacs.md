@@ -1,15 +1,13 @@
 ---
-
 title: "Setting up mu4e with iCloud custom domains with Doom Emacs on Arch Linux"
-
-date: 2022-04-18T20:31:00-04:00
-
+author: ["Luciano Laratelli"]
+date: 2022-04-18T20:32:00-07:00
+draft: false
 ---
 
-Here's how I set up `mu4e` with Doom Emacs on Arch Linux for my custom domain hosted on iCloud. I'm using `mbsync`, `mu`, and `msmpt`. I originally went with a systemd timer as detailed in the first two sections as recommended in the [Arch wiki](https://wiki.archlinux.org/title/isync#Calling_mbsync_automatically), but `mu4e` actually has a built-in functionality to deal with this for us. Note that what I've written here is the *minimum* I needed to do to actually sync, send, and read emails from `emacs`. There's a lot more you can do.
+Here's how I set up `mu4e` with Doom Emacs on Arch Linux for my custom domain hosted on iCloud. I'm using `mbsync`, `mu`, and `msmpt`. I originally went with a systemd timer as detailed in the first two sections as recommended in the [Arch wiki](https://wiki.archlinux.org/title/isync#Calling_mbsync_automatically), but `mu4e` actually has a built-in functionality to deal with this for us. Note that what I've written here is the _minimum_ I needed to do to actually sync, send, and read emails from `emacs`. There's a lot more you can do.
 
-
-# Configuration files
+## Configuration files
 
 In `init.el`, under `:email`
 
@@ -123,10 +121,9 @@ account default : icloud
 
 I have `tls` and `tls_starttls` both on. I think I only need one of these, but I don't want to muck with testing my mail configuration to get a blog post out. You might need one, the other, or both. Exercise for the reader!
 
-I was originally using `gpg` as described by Erich Grunewald in his very helpful [post](https://www.erichgrunewald.com/posts/setting-up-gmail-in-doom-emacs-using-mbsync-and-mu4e/#(optionally)-store-your-password-in-an-encrypted-file), but unlocking my yubikey every five minutes became a pain and I figured my login keychain was secure enough for my (unsophisticated) threat model.
+I was originally using `gpg` as described by Erich Grunewald in his very helpful [post](<https://www.erichgrunewald.com/posts/setting-up-gmail-in-doom-emacs-using-mbsync-and-mu4e/#(optionally)-store-your-password-in-an-encrypted-file>), but unlocking my yubikey every five minutes became a pain and I figured my login keychain was secure enough for my (unsophisticated) threat model.
 
-
-# Install and enable packages
+## Install and enable packages
 
 ```bash
 yay mbsync
@@ -146,8 +143,7 @@ doom sync
 
 At this point you can run `emacs`, `<SPC> o m`, and get to emailin'!
 
-
-# Moving away from systemd
+## Moving away from systemd
 
 This was working fine but I wasn't getting in-`emacs` notifications when new emails came in, even though `mbsync` was running on schedule! So I got rid of the `mbsync.timer` service with `systemctl disable --now --user mbsync.timer`. I kept `mbsync.service` so that my email syncs when I log in for the day. Then, in my `config.el`:
 
@@ -158,12 +154,11 @@ This was working fine but I wasn't getting in-`emacs` notifications when new ema
 
 I restarted `emacs` and I was good to go.
 
-
-# Resources
+## Resources
 
 Tecosaur's awe-inspiring [config](https://tecosaur.github.io/emacs-config/config.html#fetching-systemd)
 
-The already-mentioned [post](https://www.erichgrunewald.com/posts/setting-up-gmail-in-doom-emacs-using-mbsync-and-mu4e/#(optionally)-store-your-password-in-an-encrypted-file) from Erich Grunewald
+The already-mentioned [post](<https://www.erichgrunewald.com/posts/setting-up-gmail-in-doom-emacs-using-mbsync-and-mu4e/#(optionally)-store-your-password-in-an-encrypted-file>) from Erich Grunewald
 
 The Doom Emacs `mu4e` module [documentation](https://github.com/hlissner/doom-emacs/tree/develop/modules/email/mu4e) (also from Tecosaur)
 
