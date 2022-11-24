@@ -156,12 +156,8 @@ I restarted `emacs` and I was good to go.
 
 ## Resources
 
-Tecosaur's awe-inspiring [config](https://tecosaur.github.io/emacs-config/config.html#fetching-systemd)
-
-The already-mentioned [post](<https://www.erichgrunewald.com/posts/setting-up-gmail-in-doom-emacs-using-mbsync-and-mu4e/#(optionally)-store-your-password-in-an-encrypted-file>) from Erich Grunewald
-
-The Doom Emacs `mu4e` module [documentation](https://github.com/hlissner/doom-emacs/tree/develop/modules/email/mu4e) (also from Tecosaur)
-
-[davemail](https://github.com/kzar/davemail/blob/main/.mbsyncrc)
-
-This [article](https://macowners.club/posts/email-emacs-mu4e-macos/#storing-trusted-root-certificates), though it focuses on macOS
+- Tecosaur's awe-inspiring [config](https://tecosaur.github.io/emacs-config/config.html#fetching-systemd)
+- The already-mentioned [post](<https://www.erichgrunewald.com/posts/setting-up-gmail-in-doom-emacs-using-mbsync-and-mu4e/#(optionally)-store-your-password-in-an-encrypted-file>) from Erich Grunewald
+- The Doom Emacs `mu4e` module [documentation](https://github.com/hlissner/doom-emacs/tree/develop/modules/email/mu4e) (also from Tecosaur)
+- [davemail](https://github.com/kzar/davemail/blob/main/.mbsyncrc)
+- This [article](https://macowners.club/posts/email-emacs-mu4e-macos/#storing-trusted-root-certificates), though it focuses on macOS
