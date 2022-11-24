@@ -37,7 +37,7 @@
 ;; the two profiles.
 (dev-prep!)
 
-(repl/set-refresh-dirs "src/clj")
+(repl/set-refresh-dirs "src")
 
 (def refresh repl/refresh)
 
