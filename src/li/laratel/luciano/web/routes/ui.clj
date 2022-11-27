@@ -105,6 +105,11 @@
      wonderful "
      [:a {:href "https://github.com/kiranshila/cybermonday"} "cybermonday"] " library."])))
 
+(defn table-row [content]
+  [:td {:style {:vertical-align "top"
+                :height "0"}}
+   content])
+
 (defn blog [request]
   (let [{:keys [posts]} (utils/route-data request)
         posts-by-date (update-vals (group-by :date-int posts) first)
@@ -114,17 +119,16 @@
      "Luciano Laratelli's Blog"
      "Listing of Luciano Laratelli's blog posts"
      nil
-     [:ul {:style {:list-style-position "inside"
-                   :padding-left 0}}
-
-      (for [date ordered-dates]
-        (let [{:keys [date-str title blog-post-id]} (get posts-by-date date)]
-          [:li
-           {:style
-            (str
-             "list-style-type:" "'" date-str " '")}
-
-           [:a {:href (str "/blog/" blog-post-id)} title]]))])))
+     [:div
+      [:br]
+      [:table {:style
+               {:border-collapse "collapse"}}
+       (for [date ordered-dates]
+         (let [{:keys [date-str title blog-post-id]} (get posts-by-date date)]
+           [:tr
+            (table-row date-str)
+            (table-row
+             [:a {:href (str "/blog/" blog-post-id)} title])]))]])))
 
 (defn blog-post [{{:keys [blog-post-id]} :path-params :as request}]
   (let [{:keys [body title description date-str]}
