@@ -52,9 +52,6 @@
          :title (:title (second reference))}
      body]))
 
-(defn lower-list-item [[type _ [_ _ item]]]
-  [:li (vector type item)])
-
 (defn guh [[type args body]]
   (vector type
           (merge args {:style {:white-space "pre-wrap"}})
