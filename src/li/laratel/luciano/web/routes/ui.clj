@@ -97,6 +97,10 @@
 
     ["Interested in PGP? I'm on " [:a {:href "https://keybase.io/lucianolaratelli"} "Keybase"] ". "
      "You can also " [:a {:href "/public-key.asc"} "view"] " my public key."]
+    [[:a
+      {:href "https://parens.social/@luciano"
+       :rel "me"}
+      "Let's federate!"]]
 
     ["This site is written in Clojure; its source code lives "
      [:a {:href "https://git.sr.ht/~luciano/laratel.li"} "here"] ". I used " [:a
