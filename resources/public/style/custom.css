@@ -1,16 +1,12 @@
-@font-face {
-  font-family: "opendyslexic";
-  src: url("/fonts/OpenDyslexicMono-Regular.otf");
-}
-
 code[class*="language-"],
 pre[class*="language-"] {
-  font-family: "opendyslexic";
-  font-size: 0.8em;
+  font: 0.8em Monaco, monospace;
 }
+
 code {
-  font-family: "opendyslexic";
+  font-family: Monaco, monospace;
 }
+
 a.in-nav {
   padding-right: 8px;
 }
