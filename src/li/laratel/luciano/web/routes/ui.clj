@@ -1,15 +1,18 @@
 (ns li.laratel.luciano.web.routes.ui
   (:require
    [clojure.java.io :as io]
+   [clojure.pprint :as pp]
    [clojure.tools.logging :as log]
    [cpath-clj.core :as cpath]
    [integrant.core :as ig]
    [li.laratel.luciano.web.htmx :refer [page] :as htmx]
    [li.laratel.luciano.web.middleware.exception :as exception]
+   [li.laratel.luciano.web.middleware.formats :as formats]
    [li.laratel.luciano.web.routes.lowering :as lowering]
    [li.laratel.luciano.web.routes.utils :as utils]
    [reitit.ring.middleware.muuntaja :as muuntaja]
-   [reitit.ring.middleware.parameters :as parameters]))
+   [reitit.ring.middleware.parameters :as parameters]
+   [ring.util.http-response :as http-response]))
 
 (defn site-head [title description has-code?]
   [:head
@@ -60,7 +63,6 @@
     ;; [:a.in-nav {:href "/home-cooked"} "Programs"]
     ;; [:a.in-nav {:href "/projects"} "Projects"]
     ]])
-
 (defn site-page
   "Wrapper for page to spread shared style everywhere.
   `has-code?` tells us a page has source code on it, which should be higlighted.
@@ -123,10 +125,10 @@
      "Luciano Laratelli's Blog"
      "Listing of Luciano Laratelli's blog posts"
      nil
-     [:div
-      [:br]
+     [:p
       [:table {:style
                {:border-collapse "collapse"}}
+
        (for [date ordered-dates]
          (let [{:keys [date-str title blog-post-id]} (get posts-by-date date)]
            [:tr
@@ -160,10 +162,34 @@
                 [:p description]
                 body])))
 
+(defn print-and-return [guh]
+  (pp/pprint guh)
+  guh)
+
+(defn mastodon-data [{:keys [query-params]}]
+  (if (= "acct:luciano@parens.social"
+         (get query-params "resource"))
+    (http-response/ok {:subject "acct:luciano@parens.social",
+                       :aliases ["https://parens.social/@luciano"
+                                 "https://parens.social/users/luciano"],
+                       :links
+                       [{:rel "http://webfinger.net/rel/profile-page",
+                         :type "text/html",
+                         :href "https://parens.social/@luciano"}
+                        {:rel "self",
+                         :type "application/activity+json",
+                         :href "https://parens.social/users/luciano"}
+                        {:rel "http://ostatus.org/schema/1.0/subscribe",
+                         :template "https://parens.social/authorize_interaction?uri={uri}"}]})
+    (http-response/not-found)))
+
 ;; Routes
 (defn ui-routes [_opts]
   [["/"
     ["" {:get home}]
+
+    [".well-known/webfinger" {:get mastodon-data
+                              :parameters {:query {:resource string?}}}]
 
     ["blog"
      ["" {:get blog}]
@@ -175,7 +201,8 @@
 (defn route-data [opts]
   (merge
    opts
-   {:middleware
+   {:muuntaja   formats/instance
+    :middleware
     [;; Default middleware for ui
      ;; query-params & form-params
      parameters/parameters-middleware
