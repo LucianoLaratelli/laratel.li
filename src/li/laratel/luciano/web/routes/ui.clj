@@ -166,30 +166,26 @@
   (pp/pprint guh)
   guh)
 
-(defn mastodon-data [{:keys [query-params]}]
-  (if (= "acct:luciano@parens.social"
-         (get query-params "resource"))
-    (http-response/ok {:subject "acct:luciano@parens.social",
-                       :aliases ["https://parens.social/@luciano"
-                                 "https://parens.social/users/luciano"],
-                       :links
-                       [{:rel "http://webfinger.net/rel/profile-page",
-                         :type "text/html",
-                         :href "https://parens.social/@luciano"}
-                        {:rel "self",
-                         :type "application/activity+json",
-                         :href "https://parens.social/users/luciano"}
-                        {:rel "http://ostatus.org/schema/1.0/subscribe",
-                         :template "https://parens.social/authorize_interaction?uri={uri}"}]})
-    (http-response/not-found)))
+(defn mastodon-data [_]
+  (http-response/ok {:subject "acct:luciano@parens.social",
+                     :aliases ["https://parens.social/@luciano"
+                               "https://parens.social/users/luciano"],
+                     :links
+                     [{:rel "http://webfinger.net/rel/profile-page",
+                       :type "text/html",
+                       :href "https://parens.social/@luciano"}
+                      {:rel "self",
+                       :type "application/activity+json",
+                       :href "https://parens.social/users/luciano"}
+                      {:rel "http://ostatus.org/schema/1.0/subscribe",
+                       :template "https://parens.social/authorize_interaction?uri={uri}"}]}))
 
 ;; Routes
 (defn ui-routes [_opts]
   [["/"
     ["" {:get home}]
 
-    [".well-known/webfinger" {:get mastodon-data
-                              :parameters {:query {:resource string?}}}]
+    [".well-known/webfinger" {:get mastodon-data}]
 
     ["blog"
      ["" {:get blog}]
