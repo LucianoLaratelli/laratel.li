@@ -68,12 +68,6 @@ I spent a good bit of time in school working with CUDA and MPI, but it's been a 
 - `git`
 - `vim`
 
-### Spoken Languages
-
-- English (native)
-- Spanish (native)
-- Italian (basic, in progress)
-
 ### Operating Systems
 
 I'm highly proficient in the usage and configuration of Arch Linux, the Debian-based Linux distributions, and macOS. I used to be pretty good with Windows, too, but it's been years since I used it. Recently I've been hacking around with GNU Guix System for my home server.
