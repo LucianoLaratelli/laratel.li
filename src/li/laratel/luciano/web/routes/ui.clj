@@ -86,7 +86,7 @@
     "Hello and welcome!"
     "This is the personal website for me, Luciano Laratelli."
     "I'm a software developer based out of Miami Beach. My technical interests
-    include functional programming, espcially in Clojure, as well as herding
+    include functional programming, especially in Clojure, as well as herding
     Linux servers. I'm an Emacs enthusiast. Before I got into computers, I spent
     far too much time thinking about chemistry."
     ["You can reach me by email at " [:a {:href "mailto:luciano@laratel.li"} "luciano@laratel.li"] "."]
