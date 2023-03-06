@@ -8,7 +8,7 @@ date: 2022-11-22
 
 ### Dwolla
 
-- Software Engineer I
+- Software Engineer
 - April 2022 -> Present
 - Fully remote
 
