@@ -52,11 +52,15 @@
       (str/escape code
                   {\< "&lt;", \> "&gt;", \& "&amp;"})]]))
 
-(defn lower-link-ref [[_ {:keys [reference]} body]]
-  (when reference
-    [:a {:href (:url (second reference))
-         :title (:title (second reference))}
-     body]))
+(defn lower-link-ref [[_ {:keys [href title]} body]]
+  (when href
+    (if (str/starts-with? href "/img/") ;; not a hack. not brittle. always guaranteed to work.
+      [:a {:href href}
+       [:img {:src href
+              :alt body}]]
+      [:a {:href href
+           :title title}
+       body])))
 
 (defn guh [[type args body]]
   (vector type
