@@ -35,3 +35,12 @@ h5:hover .aal_svg,
 h6:hover .aal_svg {
   visibility: visible;
 }
+
+ol.footnote {
+  column-count: 1;
+  padding: 0 20px 20px 20px;
+}
+
+/* ol.footnote li { */
+/*   list-style-position: inside; */
+/* } */

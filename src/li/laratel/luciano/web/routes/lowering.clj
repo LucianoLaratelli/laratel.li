@@ -4,6 +4,8 @@
    [clojure.tools.logging :as log]
    [cybermonday.core :as cm]))
 
+(def footnote-count-for-post (atom 1))
+
 (defn post-id
   "generate a stable, web-safe identifier for a post title. to be used as part of a post's URL"
   [title]
@@ -37,6 +39,12 @@
          "M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"}]]]
      body]))
 
+(defn lower-footnote [[_ {:keys [id]}]]
+  (let [ret [:sup {:id (str "fnref-" id)}
+             [:a {:href (str "#fn-" id)} @footnote-count-for-post]]]
+    (swap! footnote-count-for-post inc)
+    ret))
+
 (defn lower-fenced-code-block [[_ {:keys [language]} code]]
   (let [language (cond (str/blank? language) "text"
                        (= "emacs-lisp" language) "lisp"
@@ -62,7 +70,8 @@
   {:markdown/link-ref lower-link-ref
    :markdown/heading lower-heading
    :code guh
-   :markdown/fenced-code-block lower-fenced-code-block})
+   :markdown/fenced-code-block lower-fenced-code-block
+   :markdown/footnote lower-footnote})
 
 (defonce formatter
   (java.text.SimpleDateFormat. "yyyy-MM-dd"))
@@ -70,9 +79,22 @@
 (defn format-simple-date [date]
   (.format formatter date))
 
+(defn top-level-li? [v]
+  (and
+   (vector? v)
+   (= (first v) :li)))
+
 (defn parse [md]
   (let [{{:keys [date title]} :frontmatter :as parsed} (cm/parse-md md {:lower-fns lower-fns})
-        date-str (format-simple-date date)]
+        date-str (format-simple-date date)
+        ;; hack to avoid making a cybermonday PR
+        top-level-lis (filter top-level-li? (-> parsed :body))
+        parsed (if (seq top-level-lis)
+                 (assoc parsed :body
+                        (conj (vec (remove top-level-li? (-> parsed :body)))
+                              [:hr]
+                              (apply vector :ol.footnote {:start 0} top-level-lis)))
+                 parsed)]
     (-> parsed
         (assoc
          :date-str date-str

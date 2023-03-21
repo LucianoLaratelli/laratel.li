@@ -221,4 +221,5 @@
         :let [uri (first uris)]]
     (with-open [in (clojure.java.io/input-stream uri)]
       (log/debug "parsing" uri)
+      (reset! lowering/footnote-count-for-post 1)
       (lowering/parse (slurp in)))))
