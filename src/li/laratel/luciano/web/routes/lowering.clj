@@ -1,7 +1,6 @@
 (ns li.laratel.luciano.web.routes.lowering
   (:require
    [clojure.string :as str]
-   [clojure.tools.logging :as log]
    [cybermonday.core :as cm]))
 
 (def footnote-count-for-post (atom 1))
@@ -9,7 +8,6 @@
 (defn post-id
   "generate a stable, web-safe identifier for a post title. to be used as part of a post's URL"
   [title]
-  (log/debug "Making post id from" title)
   (if (nil? title)
     (str  (java.util.UUID/randomUUID))
     (as-> title t
