@@ -66,6 +66,7 @@
 
 (def lower-fns
   {:markdown/link-ref lower-link-ref
+   :a lower-link-ref
    :markdown/heading lower-heading
    :code guh
    :markdown/fenced-code-block lower-fenced-code-block
