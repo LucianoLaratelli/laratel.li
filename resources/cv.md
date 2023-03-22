@@ -12,7 +12,19 @@ date: 2022-11-22
 - April 2022 -> Present
 - Fully remote
 
-I work on the team that integrates financial institutions into the Dwolla ecosystem. This role involves Scala, TypeScript, Serverless, and various AWS technologies, with Lambdas, Dynamo, and API Gateway among them.
+Built out API endpoints with API Gateway and TypeScript for internal microservices deployed using Serverless as part of an event-driven architecture.
+
+Wrote new microservices from request validation and parsing to triggering business logic in other services using SNS and SQS, down to storing data using DynamoDB.
+
+Maintained existing Scala microservices, using the Cats and Cats Effect libraries.
+
+Contributed to design of an external API for a new initiative. Helped determine layout of DynamoDB tables using single-table design principles.
+
+Became a resource for the team on the [fp-ts](https://gcanti.github.io/fp-ts/) typed functional programming library. I wrote an internal document on best practices for this library.
+
+Took ownership of internal developer experience, including writing a plugin for the Scala build tool to maintain git hooks (for use with formatters) after identifying that a suitable tool didn't exist.
+
+Contributed to internal RFCs on improving microservice testing and platform alerting.
 
 ### Flexibits, Inc.
 
@@ -47,11 +59,9 @@ Languages spoken:
 
 ### Computer Languages
 
-I'm most familiar with Clojure(Script), Python, and Bash.
+I've worked professionally with SQL, TypeScript, Swift, Objective-C, Scala, and Clojure(Script).
 
-I'm comfortable with SQL, TypeScript, C, and Swift.
-
-I have significant exposure to C++, Objective-C, and Scala, but they aren't my favorites.
+I used C, C++, Python, and Bash when I in graduate school and when I was doing computational chemistry research.
 
 I can hack around in HTML and CSS, but not professionally. I also have a good bit of LaTeX experience due to my stint in academia.
 
@@ -61,12 +71,12 @@ I spent a good bit of time in school working with CUDA and MPI, but it's been a 
 
 ### Software Engineering Tools
 
-- `CMake`
 - `docker`
-- `emacs` (using my [custom configuration](https://github.com/LucianoLaratelli/.home/blob/macbook/doom/.doom.d/config.org) for [Doom Emacs](https://github.com/hlissner/doom-emacs))
-- `gdb` and `lldb`
+- `emacs` (using my [custom configuration](https://git.sr.ht/~luciano/.home/tree/main/item/doom/.doom.d/config.el) for [Doom Emacs](https://github.com/hlissner/doom-emacs))
+- `gdb`
 - `git`
 - `vim`
+- Xcode
 
 ### Operating Systems
 
@@ -78,13 +88,13 @@ I'm highly proficient in the usage and configuration of Arch Linux, the Debian-b
 
 #### laratel.li
 
-You're looking at it!
+You're looking at it! I [built](https://git.sr.ht/~luciano/laratel.li) this site using Clojure and [Kit-clj](https://kit-clj.github.io/).
 
 ### School Projects
 
 [`reljr`](https://github.com/reljr/reljr) is a relational algebra evaluator written in Clojure and Clojurescript. This was a group project for the advanced databases elective at USF. I contributed a large portion of the parser and its grammar, portions of the interpreter, the frontend interface, and the majority of the documentation.
 
-[`dj2ll`](https://github.com/lucianolaratelli/dj2ll-public) is an extension of the =dj2dism compiler. It reuses the front-end components (lexer, parser, and typechecker) but implements an entirely new backend using the LLVM C++ API.
+[`dj2ll`](https://github.com/lucianolaratelli/dj2ll-public) is an extension of the `dj2dism` compiler. It reuses the front-end components (lexer, parser, and typechecker) but implements an entirely new backend using the LLVM C++ API.
 
 `dj2dism` is a non-optimizing compiler for a Java-like object-oriented language, `diminished Java` (DJ). The compiler generates a RISC-like instruction set for a provided virtual machine. This semester-long project involved interpreting the language specification into the five main components of a compiler: lexer (using `flex`), parser (using `bison`), AST generation (using `bison` semantic actions), type-checker, and code generator. The type-checker and code generator are implemented in C89. Due to the course's honor code, I can not publicly display the source code.
 
