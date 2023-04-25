@@ -219,5 +219,6 @@
   (for [[_ uris] (cpath/resources (clojure.java.io/resource "blog/"))
         :let [uri (first uris)]]
     (with-open [in (clojure.java.io/input-stream uri)]
+      (log/info "Parsing" uri)
       (reset! lowering/footnote-count-for-post 1)
       (lowering/parse (slurp in)))))
