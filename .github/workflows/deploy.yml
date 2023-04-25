@@ -21,27 +21,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Prepare java
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin"
-          java-version: "19"
-
-      - name: Install clojure tools
-        uses: DeLaGuardo/setup-clojure@10.2
-        with:
-          cli: "latest"
-
-      - name: Cache clojure dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.m2/repository
-            ~/.gitlibs
-            ~/.deps.clj
-          key: cljdeps-${{ hashFiles('deps.edn') }}
-          restore-keys: cljdeps-
-
       - name: Setup deploy environment
         uses: superfly/flyctl-actions/setup-flyctl@master
 
