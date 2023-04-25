@@ -104,8 +104,9 @@
       "Let's federate!"]]
 
     ["This site is written in Clojure; its source code lives "
-     [:a {:href "https://git.sr.ht/~luciano/laratel.li"} "here"] ". I used " [:a
-                                                                              {:href "https://neat.joeldare.com/"} "neat.css"]
+     [:a {:href "https://github.com/LucianoLaratelli/laratel.li"} "here"]
+     ". I used " [:a
+                  {:href "https://neat.joeldare.com/"} "neat.css"]
      ", with some modifications. Blog post parsing made possible thanks to the
      wonderful "
      [:a {:href "https://github.com/kiranshila/cybermonday"} "cybermonday"] " library."])))
