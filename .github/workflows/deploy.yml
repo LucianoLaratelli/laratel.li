@@ -56,7 +56,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: Build docker image
-        run: docker build -t registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}-${{ steps.vars.outputs.datestr }}
+        run: docker build -t "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}-${{ steps.vars.outputs.datestr }}"
 
       - name: Deploy
         run: flyctl deploy --image registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}-${{ steps.vars.outputs.datestr }}
