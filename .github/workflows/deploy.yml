@@ -21,10 +21,44 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "19"
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@10.2
+        with:
+          cli: "latest"
+
+      - name: Cache clojure dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.deps.clj
+          key: cljdeps-${{ hashFiles('deps.edn') }}
+          restore-keys: cljdeps-
+
+      - name: Get short hash
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Get current date
+        id: datestr
+        run: echo "datestr=$(date +'%Y-%m-%d-%H%S')" >> $GITHUB_OUTPUT
+
       - name: Setup deploy environment
         uses: superfly/flyctl-actions/setup-flyctl@master
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Build docker image
+        run: docker build -t registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}-${{ steps.vars.outputs.datestr }}
 
       - name: Deploy
-        run: flyctl deploy --remote-only
+        run: flyctl deploy --image registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}-${{ steps.vars.outputs.datestr }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
