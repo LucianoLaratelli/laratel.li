@@ -1,0 +1,51 @@
+name: test->deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.edn"
+      - "**.css"
+      - "**.js"
+      - "**.clj"
+      - "**.yml"
+      - "Dockerfile"
+
+jobs:
+  CICD:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "19"
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@10.2
+        with:
+          cli: "latest"
+
+      - name: Cache clojure dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.deps.clj
+          key: cljdeps-${{ hashFiles('deps.edn') }}
+          restore-keys: cljdeps-
+
+      - name: Setup deploy environment
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

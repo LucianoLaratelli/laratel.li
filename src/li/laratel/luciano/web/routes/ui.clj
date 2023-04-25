@@ -40,11 +40,10 @@
            :href "/style/neat.css"}]
    [:link {:rel "stylesheet"
            :href "/style/custom.css"}]
-   ;; goatcounter
    [:script
-    {:data-goatcounter "https://stats.laratel.li/count",
-     :async "",
-     :src "//stats.laratel.li/count.js"}]])
+    {:defer "",
+     :data-domain "luciano.laratel.li",
+     :src "https://plausible.io/js/script.js"}]])
 
 (defn pars [& paragraphs]
   (apply vector :div (map (fn [par]
@@ -220,6 +219,5 @@
   (for [[_ uris] (cpath/resources (clojure.java.io/resource "blog/"))
         :let [uri (first uris)]]
     (with-open [in (clojure.java.io/input-stream uri)]
-      (log/debug "parsing" uri)
       (reset! lowering/footnote-count-for-post 1)
       (lowering/parse (slurp in)))))
