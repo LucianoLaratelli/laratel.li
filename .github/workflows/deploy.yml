@@ -47,7 +47,7 @@ jobs:
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Get current date
-        id: datestr
+        id: vars
         run: echo "datestr=$(date +'%Y-%m-%d-%H%S')" >> $GITHUB_OUTPUT
 
       - name: Setup deploy environment
