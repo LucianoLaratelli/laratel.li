@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17-alpine as temurin-deps
 
-COPY ./target/blog.jar /app/
+COPY ./target/luciano-standalone.jar /app/blog.jar
 
 RUN unzip /app/blog.jar -d temp &&  \
     jdeps  \
@@ -33,7 +33,9 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 COPY --from=temurin-jdk /jre $JAVA_HOME
 
 EXPOSE $PORT
-COPY ./target/blog.jar /app/
+
+COPY ./target/luciano-standalone.jar /app/blog.jar
+
 WORKDIR /app
 
 ENTRYPOINT exec java $JAVA_OPTS -Dlogback.configurationFile=/env/prod/resources/logback.xml -jar blog.jar
