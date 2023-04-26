@@ -49,7 +49,7 @@ jobs:
           restore-keys: cljdeps-
 
       - name: Build docker image
-        run: docker build -t "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}" .
+        run: DOCKER_BUILDKIT=1 docker build -t "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}" .
 
       - name: Push docker image to registry
         run: docker push "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
