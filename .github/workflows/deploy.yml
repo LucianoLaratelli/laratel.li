@@ -21,9 +21,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Get short hash
-        id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Prepare
+        id: prep
+        run: |
+          TAG=$(echo $GITHUB_SHA | head -c7)
+          IMAGE="registry.fly.io/luciano-laratelli:blog"
+          echo ::set-output name=tagged_image::${IMAGE}:${TAG}
+          echo ::set-output name=tag::${TAG}
 
       - name: Setup deploy environment
         uses: superfly/flyctl-actions/setup-flyctl@master
@@ -35,23 +39,36 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
-      - name: Set up dependency cache
+      - name: Cache Docker layers
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.m2/repository
-            ~/.gitlibs
-            ~/.deps.clj
-          key: cljdeps-${{ hashFiles('**/deps.edn') }}
-          restore-keys: cljdeps-
+          path: /tmp/.buildx-cache
+          # Key is named differently to avoid collision
+          key: ${{ runner.os }}-multi-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-multi-buildx
 
-      - name: Build docker image
-        run: DOCKER_BUILDKIT=1 docker build -t "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}" .
+      - name: Build production image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          builder: ${{ steps.buildx.outputs.name }}
+          file: ./Dockerfile
+          # Set the desired build target here
+          target: deploy
+          tags: ${{ steps.prep.outputs.tagged_image }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          # Note the mode=max here
+          # More: https://github.com/moby/buildkit#--export-cache-options
+          # And: https://github.com/docker/buildx#--cache-tonametypetypekeyvalue
+          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
 
-      - name: Push docker image to registry
-        run: docker push "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Deploy
-        run: "flyctl deploy --image registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
+        run: "flyctl deploy --image ${{ steps.prep.outputs.tagged_image }}"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
