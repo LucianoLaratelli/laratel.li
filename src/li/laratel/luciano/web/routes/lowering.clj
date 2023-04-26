@@ -23,7 +23,9 @@
         header-ref (str "#" header-id)]
     [(keyword (str "h" level))
      [:a.aal_anchor
-      {:href header-ref, :aria-hidden "true", :id header-id}
+      {:href header-ref,
+       :aria-hidden "true",
+       :id header-id}
       [:svg
        {:aria-hidden "true",
         :class "aal_svg",
@@ -50,7 +52,9 @@
     [:pre
      [(keyword (str "code.language-" language))
       (str/escape code
-                  {\< "&lt;", \> "&gt;", \& "&amp;"})]]))
+                  {\< "&lt;",
+                   \> "&gt;",
+                   \& "&amp;"})]]))
 
 (defn lower-link-ref [[_ {:keys [href title]} body]]
   (when href
@@ -66,7 +70,9 @@
   (vector type
           (merge args {:style {:white-space "pre-wrap"}})
           (str/escape body
-                      {\< "&lt;", \> "&gt;", \& "&amp;"})))
+                      {\< "&lt;",
+                       \> "&gt;",
+                       \& "&amp;"})))
 
 (def lower-fns
   {:markdown/link-ref lower-link-ref
@@ -88,7 +94,8 @@
    (= (first v) :li)))
 
 (defn parse [md]
-  (let [{{:keys [date title]} :frontmatter :as parsed} (cm/parse-md md {:lower-fns lower-fns})
+  (let [{{:keys [date title]} :frontmatter
+         :as parsed} (cm/parse-md md {:lower-fns lower-fns})
         date-str (format-simple-date date)
         ;; hack to avoid making a cybermonday PR
         top-level-lis (filter top-level-li? (-> parsed :body))

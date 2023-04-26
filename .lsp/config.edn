@@ -1,4 +1,5 @@
-{:cljfmt {:sort-ns-references? true}
+{:cljfmt {:sort-ns-references? true
+          :split-keypairs-over-multiple-lines? true}
  :cljkondo {:linters {:single-key-in {:level :warning}
                       :unresolved-var
                       {:exclude

@@ -137,7 +137,8 @@
             (table-row
              [:a {:href (str "/blog/" blog-post-id)} title])]))]])))
 
-(defn blog-post [{{:keys [blog-post-id]} :path-params :as request}]
+(defn blog-post [{{:keys [blog-post-id]} :path-params
+                  :as request}]
   (let [{:keys [body title description date-str]}
         (->> (utils/route-data request)
              :posts
@@ -146,7 +147,9 @@
                           blog-post-id)))
              first)]
 
-    (site-page {:title title :description description :has-code? true}
+    (site-page {:title title
+                :description description
+                :has-code? true}
                [:div
                 [:h2 title]
                 [:h4 date-str]
@@ -156,7 +159,9 @@
 
 (defn cv [_]
   (let [{:keys [body title date-str description]} (lowering/parse (slurp (io/resource "cv.md")))]
-    (site-page {:title "CV" :description "Luciano Laratelli's Curriculum Vitae" :has-code? nil}
+    (site-page {:title "CV"
+                :description "Luciano Laratelli's Curriculum Vitae"
+                :has-code? nil}
                [:div
                 [:h2 title]
                 [:h4 "Last updated: " date-str]
