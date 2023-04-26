@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:17
+FROM eclipse-temurin:17-alpine
 
 COPY ./target/luciano-standalone.jar /luciano/luciano-standalone.jar
 
