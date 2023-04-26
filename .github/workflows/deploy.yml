@@ -45,7 +45,7 @@ jobs:
             ~/.m2/repository
             ~/.gitlibs
             ~/.deps.clj
-          key: cljdeps-${{ hashFiles('deps.edn') }}
+          key: cljdeps-${{ hashFiles('**/deps.edn') }}
           restore-keys: cljdeps-
 
       - name: Build and push
