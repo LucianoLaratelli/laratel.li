@@ -25,7 +25,7 @@ jobs:
         id: prep
         run: |
           TAG=$(echo $GITHUB_SHA | head -c7)
-          IMAGE="registry.fly.io/luciano-laratelli-blog"
+          IMAGE="registry.fly.io/luciano-laratelli"
           echo ::set-output name=image::${IMAGE}
           echo ::set-output name=tagged_image::${IMAGE}:${TAG}
           echo ::set-output name=tag::${TAG}
