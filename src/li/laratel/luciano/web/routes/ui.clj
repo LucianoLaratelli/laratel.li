@@ -70,7 +70,6 @@
   every page as its wasteful."
   [{:keys [title description has-code?]} & body]
   (page
-   {:lang "en"}
 
    (site-head title description has-code?)
 
