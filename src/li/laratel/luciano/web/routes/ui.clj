@@ -70,6 +70,7 @@
   every page as its wasteful."
   [{:keys [title description has-code?]} & body]
   (page
+   {:lang "en"}
 
    (site-head title description has-code?)
 
@@ -80,7 +81,10 @@
 (defn home [_]
   (site-page
    {:title "Luciano Laratelli"
-    :description ""
+    :description "Home page of Luciano Laratelli's personal website. Contains a
+    short bio and various contacts methods, including
+    email (luciano@laratel.li), links to GitHub and SourceHut profiles,
+    LinkedIn, PGP key, and my parens.social mastodon instance username."
     :has-code? false}
    (pars
     "Hello and welcome!"
@@ -105,7 +109,7 @@
       "Let's federate!"]]
 
     ["This site is written in Clojure; its source code lives "
-     [:a {:href "https://github.com/LucianoLaratelli/laratel.li"} "here"]
+     [:a {:href "https://github.com/LucianoLaratelli/laratel.li"} "on my GitHub"]
      ". I used " [:a
                   {:href "https://neat.joeldare.com/"} "neat.css"]
      ", with some modifications. Blog post parsing made possible thanks to the
