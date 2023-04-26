@@ -48,11 +48,14 @@ jobs:
           key: cljdeps-${{ hashFiles('deps.edn') }}
           restore-keys: cljdeps-
 
-      - name: Build docker image
-        run: DOCKER_BUILDKIT=1 docker build -t "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}" .
-
-      - name: Push docker image to registry
-        run: docker push "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Deploy
         run: "flyctl deploy --image registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
