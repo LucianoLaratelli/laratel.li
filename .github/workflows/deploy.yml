@@ -38,14 +38,21 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v4
+      - name: Set up dependency cache
+        uses: actions/cache@v3
         with:
-          context: .
-          push: true
-          tags: "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.deps.clj
+          key: cljdeps-${{ hashFiles('deps.edn') }}
+          restore-keys: cljdeps-
+
+      - name: Build docker image
+        run: docker build -t "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
+
+      - name: Push docker image to registry
+        run: docker push "registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
 
       - name: Deploy
         run: "flyctl deploy --image registry.fly.io/luciano-laratelli:blog-${{ steps.vars.outputs.sha_short }}"
