@@ -21,22 +21,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Prepare
-        id: prep
-        run: |
-          TAG=$(echo $GITHUB_SHA | head -c7)
-          IMAGE="registry.fly.io/luciano-laratelli"
-          echo ::set-output name=image::${IMAGE}
-          echo ::set-output name=tagged_image::${IMAGE}:${TAG}
-          echo ::set-output name=tag::${TAG}
-
       - name: Setup deploy environment
         uses: superfly/flyctl-actions/setup-flyctl@master
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
-      - name: Log in to fly.io docker registry
-        run: flyctl auth docker
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -58,41 +44,13 @@ jobs:
             ~/.m2/repository
             ~/.gitlibs
             ~/.deps.clj
-          key: cljdeps-${{ hashFiles('deps.edn') }}
+          key: cljdeps-${{ hashFiles('**/deps.edn') }}
           restore-keys: cljdeps-
 
       - name: Make uberjar
         run: make uberjar
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.prep.outputs.tagged_image }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
-      # Temp fix
-      # https://github.com/docker/build-push-action/issues/252
-      # https://github.com/moby/buildkit/issues/1896
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
       - name: Deploy
-        run: "flyctl deploy --image ${{ steps.prep.outputs.tagged_image }}"
+        run: flyctl deploy --local-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
