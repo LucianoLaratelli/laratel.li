@@ -16,7 +16,7 @@ RUN clojure -T:build all
 
 FROM azul/zulu-openjdk-alpine:17
 
-COPY --from=build /target/luciano-standalone.jar /luciano/luciano-standalone.jar
+COPY --from=build /app/target/luciano-standalone.jar /luciano/luciano-standalone.jar
 
 EXPOSE $PORT
 
