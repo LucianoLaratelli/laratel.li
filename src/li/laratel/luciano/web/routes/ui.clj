@@ -62,12 +62,13 @@
     ;; [:a.in-nav {:href "/home-cooked"} "Programs"]
     ;; [:a.in-nav {:href "/projects"} "Projects"]
     ]])
+
 (defn site-page
   "Wrapper for page to spread shared style everywhere.
   `has-code?` tells us a page has source code on it, which should be higlighted.
   We have to include the stylesheets for that, but we don't want to do that on
   every page as its wasteful."
-  [title description has-code? & body]
+  [{:keys [title description has-code?]} & body]
   (page
 
    (site-head title description has-code?)
@@ -78,9 +79,9 @@
 
 (defn home [_]
   (site-page
-   "Luciano Laratelli"
-   ""
-   false
+   {:title "Luciano Laratelli"
+    :description ""
+    :has-code? false}
    (pars
     "Hello and welcome!"
     "This is the personal website for me, Luciano Laratelli."
@@ -122,9 +123,9 @@
         ordered-dates (reverse (sort (keys posts-by-date)))]
 
     (site-page
-     "Luciano Laratelli's Blog"
-     "Listing of Luciano Laratelli's blog posts"
-     nil
+     {:title "Luciano Laratelli's Blog"
+      :description "Listing of Luciano Laratelli's blog posts"
+      :has-code? nil}
      [:p
       [:table {:style
                {:border-collapse "collapse"}}
@@ -145,7 +146,7 @@
                           blog-post-id)))
              first)]
 
-    (site-page title description :has-code
+    (site-page {:title title :description description :has-code? true}
                [:div
                 [:h2 title]
                 [:h4 date-str]
@@ -155,7 +156,7 @@
 
 (defn cv [_]
   (let [{:keys [body title date-str description]} (lowering/parse (slurp (io/resource "cv.md")))]
-    (site-page "CV" "Luciano Laratelli's Curriculum Vitae" nil
+    (site-page {:title "CV" :description "Luciano Laratelli's Curriculum Vitae" :has-code? nil}
                [:div
                 [:h2 title]
                 [:h4 "Last updated: " date-str]
