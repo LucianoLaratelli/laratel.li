@@ -8,7 +8,7 @@ RUN clojure -Spath -Srepro >/dev/null
 FROM clojure:openjdk-17 AS build
 
 WORKDIR /app
-COPY --from=deps /app /app
+COPY --from=deps /root/.m2 /root/.m2
 
 COPY . .
 RUN clojure -T:build all
