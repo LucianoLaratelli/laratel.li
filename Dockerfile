@@ -3,8 +3,7 @@ FROM clojure:openjdk-17 AS deps
 WORKDIR /app
 COPY deps.edn .
 
-RUN --mount=type=cache,target=/root/.m2/repository \
-    clojure -Spath -Srepro >/dev/null
+RUN clojure -Spath -Srepro >/dev/null
 
 FROM clojure:openjdk-17 AS build
 

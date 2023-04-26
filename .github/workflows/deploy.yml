@@ -1,4 +1,4 @@
-name: test->deploy
+name: deploy
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ on:
       - "Dockerfile"
 
 jobs:
-  CICD:
+  Deploy:
     runs-on: ubuntu-latest
 
     steps:
