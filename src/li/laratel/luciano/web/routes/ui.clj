@@ -30,16 +30,16 @@
 
    (when has-code?
      [:link {:rel "stylesheet"
-             :href "/style/gruvbox.css"}])
+             :href "/style/gruvbox.min.css"}])
    (when has-code?
      [:script {:src "/style/highlight.min.js"}])
    (when has-code?
      [:script "hljs.highlightAll();"])
 
    [:link {:rel "stylesheet"
-           :href "/style/neat.css"}]
+           :href "/style/neat.min.css"}]
    [:link {:rel "stylesheet"
-           :href "/style/custom.css"}]
+           :href "/style/custom.min.css"}]
    [:script
     {:defer "",
      :data-domain "luciano.laratel.li",
