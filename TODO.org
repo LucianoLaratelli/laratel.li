@@ -1,3 +1,0 @@
-#+title: TODO
-
-* TODO consider rewriting with [[https://neat.joeldare.com/][neat]].

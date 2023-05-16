@@ -1,4 +1,4 @@
-(ns li.laratel.luciano.web.routes.lowering
+(ns li.laratel.lowering
   (:require
    [clojure.string :as str]
    [cybermonday.core :as cm]))

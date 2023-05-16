@@ -1,44 +1,24 @@
 (ns build
-  (:require [clojure.string :as string]
-            [clojure.tools.build.api :as b]
-            [deps-deploy.deps-deploy :as deploy]))
+  (:require [clojure.tools.build.api :as b]))
 
-(def lib 'li.laratel/luciano)
-(def main-cls (string/join "." (filter some? [(namespace lib) (name lib) "core"])))
-(def version (format "0.0.1-SNAPSHOT"))
-(def target-dir "target")
-(def class-dir (str target-dir "/" "classes"))
-(def uber-file (format "%s/%s-standalone.jar" target-dir (name lib)))
+(def class-dir "classes")
+
 (def basis (b/create-basis {:project "deps.edn"}))
 
-(defn clean
-  "Delete the build target directory"
-  [_]
-  (println (str "Cleaning " target-dir))
-  (b/delete {:path target-dir}))
+(def jar-file "luciano-service.jar")
 
-(defn prep [_]
-  (println "Writing Pom...")
-  (b/write-pom {:class-dir class-dir
-                :lib lib
-                :version version
-                :basis basis
-                :src-dirs ["src"]})
-  (b/copy-dir {:src-dirs ["src" "resources" "env/prod/resources" "env/prod/clj"]
-               :target-dir class-dir}))
+(defn clean [_]
+  (b/delete {:path "target"}))
 
-(defn uber [_]
-  (println "Compiling Clojure...")
-  (b/compile-clj {:basis basis
-                  :src-dirs ["src" "resources" "env/prod/resources" "env/prod/clj"]
-                  :class-dir class-dir})
-  (println "Making uberjar...")
-  (b/uber {:class-dir class-dir
-           :uber-file uber-file
-           :main main-cls
-           :basis basis}))
-
-(defn all [_]
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
+(defn uberjar [_]
   (clean nil)
-  (prep nil)
-  (uber nil))
+  (b/copy-dir {:src-dirs ["src" "resources"]
+               :target-dir class-dir})
+  (b/compile-clj {:basis basis
+                  :src-dirs ["src" "resources"]
+                  :class-dir class-dir})
+  (b/uber {:class-dir class-dir
+           :uber-file jar-file
+           :basis basis
+           :main 'li.laratel.core}))
