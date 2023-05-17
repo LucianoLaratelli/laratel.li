@@ -13,16 +13,9 @@ git clone https://github.com/LucianoLaratelli/laratel.li.git
 cd ~/repos/laratel.li
 ```
 
-To run locally for development with hot-reloading etc at `localhost:3000`:
-
-```shell
-clj -M:dev
-```
-
 To build the release build and serve it locally:
 
 ```shell
-bb uberjar
-cd target
-java -jar luciano-standalone.jar
+make uberjar
+java -jar luciano-service.jar
 ```
