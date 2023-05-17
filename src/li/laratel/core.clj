@@ -69,15 +69,7 @@
                        :body "Not acceptable"}
                       (response/content-type "text/html")))}))))
 
-(defmethod response/resource-data :resource
-  [^java.net.URL url]
-  ;; GraalVM resource scheme
-  (let [resource (.openConnection url)
-        len (#'ring.util.response/connection-content-length resource)]
-    (when (pos? len)
-      {:content        (.getInputStream resource)
-       :content-length len
-       :last-modified  (#'ring.util.response/connection-last-modified resource)})))
+(def server (atom nil))
 
 (defn -main []
   (reset! blog-posts (doall
@@ -85,11 +77,11 @@
                             :let [uri ^java.net.URI (first uris)]]
                         (with-open [in (clojure.java.io/input-stream uri)]
                           (reset! lowering/footnote-count-for-post 1)
-                          (lowering/parse (slurp in))
-                          (info "Parsed" (.toString uri))))))
+                          (info "Parsing" (.toString uri))
+                          (lowering/parse (slurp in))))))
 
-  (http/run-server
-   (wrap-defaults
-    handler
-    (assoc api-defaults :static {:resources "public"}))
-   {:port 3000}))
+  (reset! server (http/run-server
+                  (wrap-defaults
+                   handler
+                   (assoc api-defaults :static {:resources "public"}))
+                  {:port 3000})))

@@ -2,7 +2,7 @@
   (:require
    [clojure.java.io :as io]
    [li.laratel.lowering :as lowering]
-   [li.laratel.util :refer [pars route-data table-row site-page]]))
+   [li.laratel.util :refer [pars route-data site-page table-row]]))
 
 (def blog-posts (atom {}))
 
@@ -46,6 +46,7 @@
 
 (defn blog [_]
   (when (empty? @blog-posts) (throw (Throwable. "Empty blog posts")))
+
   (let [posts-by-date (update-vals (group-by :date-int @blog-posts) first)
         ordered-dates (reverse (sort (keys posts-by-date)))]
 
@@ -67,8 +68,7 @@
 (defn blog-post [{{:keys [blog-post-id]} :path-params
                   :as request}]
   (let [{:keys [body title description date-str]}
-        (->> (route-data request)
-             :posts
+        (->> @blog-posts
              (filter (fn [post]
                        (= (:blog-post-id post)
                           blog-post-id)))
