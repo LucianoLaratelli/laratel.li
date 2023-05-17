@@ -34,11 +34,12 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: false
+          push: true
+          registry: "registry.fly.io/luciano-laratelli:${{ github.sha }}"
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Deploy
-        run: flyctl deploy --local-only
+        run: flyctl deploy --app luciano-laratelli --image "registry.fly.io/luciano-laratelli:${{ github.sha }}"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
