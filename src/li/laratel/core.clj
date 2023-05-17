@@ -69,7 +69,8 @@
                        :body "Not acceptable"}
                       (response/content-type "text/html")))}))))
 
-(def server (atom nil))
+
+(defonce server (atom nil))
 
 (defn -main []
   (reset! blog-posts (doall
@@ -85,3 +86,8 @@
                    handler
                    (assoc api-defaults :static {:resources "public"}))
                   {:port 3000})))
+
+(defn restart! []
+  (@server :timeout 100)
+  (reset! server nil)
+  (-main))
