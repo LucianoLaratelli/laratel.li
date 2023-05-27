@@ -3,12 +3,6 @@
    [hiccup.page :as p]
    [ring.util.response :as response]))
 
-(def route-data-path [:reitit.core/match :data])
-
-(defn route-data
-  [req]
-  (get-in req route-data-path))
-
 (defn page [opts & content]
   (-> (p/html5 opts content)
       response/response

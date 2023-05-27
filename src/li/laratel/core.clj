@@ -2,8 +2,10 @@
   (:require
    [clojure.java.io :as io]
    [cpath-clj.core :as cpath]
+   [li.laratel.cv :as cv]
+   [li.laratel.home :as home]
    [li.laratel.lowering :as lowering]
-   [li.laratel.pages :refer [blog blog-post blog-posts cv home]]
+   [li.laratel.pages :refer [blog blog-post blog-posts]]
    [org.httpkit.server :as http]
    [reitit.ring :as ring]
    [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
@@ -39,7 +41,7 @@
   (ring/ring-handler
    (ring/router
     [["/"
-      ["" {:get home}]
+      ["" {:get home/home}]
 
       [".well-known/webfinger" {:get mastodon-data}]
 
@@ -48,7 +50,7 @@
        ["/:blog-post-id" {:get blog-post
                           :parameters {:path {:blog-post-id string?}}}]]
 
-      ["cv" {:get cv}]]])
+      ["cv" {:get cv/cv}]]])
    (ring/routes
      ;; Handle trailing slash in routes - add it + redirect to it
      ;; https://github.com/metosin/reitit/blob/master/doc/ring/slash_handler.md
@@ -69,7 +71,6 @@
                        :body "Not acceptable"}
                       (response/content-type "text/html")))}))))
 
-
 (defonce server (atom nil))
 
 (defn -main []
@@ -87,6 +88,7 @@
                    (assoc api-defaults :static {:resources "public"}))
                   {:port 3000})))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn restart! []
   (@server :timeout 100)
   (reset! server nil)
