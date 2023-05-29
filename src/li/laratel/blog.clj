@@ -1,10 +1,10 @@
-(ns li.laratel.pages
+(ns li.laratel.blog
   (:require
    [li.laratel.util :refer [site-page table-row]]))
 
 (def blog-posts (atom {}))
 
-(defn blog [_]
+(defn blog-page [_]
   (when (empty? @blog-posts) (throw (Throwable. "Empty blog posts")))
 
   (let [posts-by-date (update-vals (group-by :date-int @blog-posts) first)

@@ -1,9 +1,10 @@
-code[class*="language-"],
-pre[class*="language-"] {
-  font: 0.8em Monaco, monospace;
+html {
+  overflow-y: overlay;
 }
 
+pre,
 code {
+  font: 0.8em Monaco, monospace;
   font-family: Monaco, monospace;
 }
 

@@ -2,10 +2,10 @@
   (:require
    [clojure.java.io :as io]
    [cpath-clj.core :as cpath]
+   [li.laratel.blog :refer [blog-page blog-post blog-posts]]
    [li.laratel.cv :as cv]
    [li.laratel.home :as home]
    [li.laratel.lowering :as lowering]
-   [li.laratel.pages :refer [blog blog-post blog-posts]]
    [org.httpkit.server :as http]
    [reitit.ring :as ring]
    [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
@@ -46,7 +46,7 @@
       [".well-known/webfinger" {:get mastodon-data}]
 
       ["blog"
-       ["" {:get blog}]
+       ["" {:get blog-page}]
        ["/:blog-post-id" {:get blog-post
                           :parameters {:path {:blog-post-id string?}}}]]
 

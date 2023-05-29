@@ -24,11 +24,7 @@
 
    (when has-code?
      [:link {:rel "stylesheet"
-             :href "/style/gruvbox.min.css"}])
-   (when has-code?
-     [:script {:src "/style/highlight.min.js"}])
-   (when has-code?
-     [:script "hljs.highlightAll();"])
+             :href "/style/pygments-styling.min.css"}])
 
    [:link {:rel "stylesheet"
            :href "/style/neat.min.css"}]
@@ -53,7 +49,7 @@
     [:a.in-nav {:href "/"} "Home"]
     [:a.in-nav {:href "/blog"} "Blog"]
     [:a.in-nav {:href "/cv"} "CV"]
-    ;; [:a.in-nav {:href "/home-cooked"} "Programs"]
+    [:a.in-nav {:href "/programs"} "Programs"]
     ;; [:a.in-nav {:href "/projects"} "Projects"]
     ]])
 

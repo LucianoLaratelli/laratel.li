@@ -1,6 +1,7 @@
 (ns li.laratel.lowering
   (:require
    [clojure.string :as str]
+   [clygments.core :as clygments]
    [cybermonday.core :as cm]))
 
 (def footnote-count-for-post (atom 1))
@@ -45,16 +46,14 @@
     (swap! footnote-count-for-post inc)
     ret))
 
-(defn lower-fenced-code-block [[_ {:keys [language]} code]]
+(defn lower-fenced-code-block [[_ {:keys [language]
+                                   :as guh} code]]
   (let [language (cond (str/blank? language) "text"
                        (= "emacs-lisp" language) "lisp"
-                       (= "elisp" language) "lisp")]
-    [:pre
-     [(keyword (str "code.language-" language))
-      (str/escape code
-                  {\< "&lt;",
-                   \> "&gt;",
-                   \& "&amp;"})]]))
+                       (= "elisp" language) "lisp"
+                       :else language)]
+
+    (clygments/highlight code (keyword language) :html)))
 
 (defn lower-link-ref [[_ {:keys [href title]} body]]
   (when href
