@@ -93,23 +93,24 @@
    (= (first v) :li)))
 
 (defn parse [md]
-  (let [{{:keys [date title publishDate]} :frontmatter
-         :as parsed} (cm/parse-md md {:lower-fns lower-fns})
-        date-str (format-simple-date (or date publishDate))
+  (let [{{:keys [date title publishDate draft]} :frontmatter
+         :as parsed} (cm/parse-md md {:lower-fns lower-fns})]
+    (when-not draft
+      (let [date-str (format-simple-date (or date publishDate))
         ;; hack to avoid making a cybermonday PR
-        top-level-lis (filter top-level-li? (-> parsed :body))
-        parsed (if (seq top-level-lis)
-                 (assoc parsed :body
-                        (conj (vec (remove top-level-li? (-> parsed :body)))
-                              [:hr]
-                              (apply vector :ol.footnote {:start 0} top-level-lis)))
-                 parsed)]
-    (-> parsed
-        (assoc
-         :date-str date-str
-         :date-int (-> date-str
-                       (str/replace  #"-" "")
-                       Integer/parseInt)
-         :blog-post-id (post-id title))
-        (dissoc :frontmatter)
-        (merge (:frontmatter parsed)))))
+            top-level-lis (filter top-level-li? (-> parsed :body))
+            parsed (if (seq top-level-lis)
+                     (assoc parsed :body
+                            (conj (vec (remove top-level-li? (-> parsed :body)))
+                                  [:hr]
+                                  (apply vector :ol.footnote {:start 0} top-level-lis)))
+                     parsed)]
+        (-> parsed
+            (assoc
+             :date-str date-str
+             :date-int (-> date-str
+                           (str/replace  #"-" "")
+                           Integer/parseInt)
+             :blog-post-id (post-id title))
+            (dissoc :frontmatter)
+            (merge (:frontmatter parsed)))))))
