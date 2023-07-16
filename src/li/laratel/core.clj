@@ -6,6 +6,7 @@
    [li.laratel.cv :as cv]
    [li.laratel.home :as home]
    [li.laratel.lowering :as lowering]
+   ;; [li.laratel.programs.programs :as programs]
    [org.httpkit.server :as http]
    [reitit.ring :as ring]
    [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
@@ -50,7 +51,13 @@
        ["/:blog-post-id" {:get blog-post
                           :parameters {:path {:blog-post-id string?}}}]]
 
-      ["cv" {:get cv/cv}]]])
+      ["cv" {:get cv/cv}]
+      ;; ["programs"
+      ;;  ["" {:get programs/programs}]
+      ;;  ["/:program-id" {:get programs/program
+      ;;                   :parameters {:path {:program-id string?}}}]]
+      ]])
+
    (ring/routes
      ;; Handle trailing slash in routes - add it + redirect to it
      ;; https://github.com/metosin/reitit/blob/master/doc/ring/slash_handler.md
@@ -75,7 +82,7 @@
 
 (defn -main []
   (reset! blog-posts (doall
-                      (for [[_ uris] (cpath/resources (clojure.java.io/resource "blog/"))
+                      (for [[_ uris] (cpath/resources (clojure.java.io/resource "content/posts"))
                             :let [uri ^java.net.URI (first uris)]]
                         (with-open [in (clojure.java.io/input-stream uri)]
                           (reset! lowering/footnote-count-for-post 1)

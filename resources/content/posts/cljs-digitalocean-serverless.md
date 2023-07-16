@@ -1,7 +1,8 @@
 ---
 title: "Using CLJS and shadow-cljs for serverless DigitalOcean Functions"
-date: 2023-01-11T06:57:00-05:00
-description: ""
+author: ["Luciano Laratelli"]
+publishDate: 2023-01-11T20:08:00-05:00
+draft: false
 ---
 
 DigitalOcean (DO) [Functions](https://www.digitalocean.com/products/functions): "a serverless computing solution that runs on-demand, enabling you to focus on your code, scale instantly with confidence, and save costs by eliminating the need to maintain servers." Since I'm a fanatic, I would like to write some Clojure for my serverless use case. Because DO offers Node as a runtime, we're able to use ClojureScript to write code and deploy it to the serverless, er, server.
@@ -102,7 +103,7 @@ Huh. OK, so let's do that in our example, `src/main/core.cljs`:
 
 And re-build and deploy.
 
-```
+```nil
 2023-01-12T11:22:14.933096349Z stdout: hello!
 2023-01-12T11:22:14.933797937Z stdout: args:  nil
 2023-01-12T11:22:14.961195498Z stdout: hello!
@@ -111,7 +112,7 @@ And re-build and deploy.
 
 Ok, so when our function executes, our `main` gets executed twice. I don't know why this happens. If I run our compiled javascript file locally with `node`, I only see one execution:
 
-```
+```nil
 $ node packages/do-serverless/core/core.js
 hello!
 args:  nil
@@ -133,7 +134,7 @@ Well, we know whatever we tell `shadow` our `main` is will get run. And we also 
 (set! js/exports.main my-actual-function)
 ```
 
-```
+```nil
 2023-01-12T11:28:57.786063804Z stdout: hello!
 2023-01-12T11:28:57.793552189Z stdout: args:  (#js {} ... // output truncated
 ```

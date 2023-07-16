@@ -93,9 +93,9 @@
    (= (first v) :li)))
 
 (defn parse [md]
-  (let [{{:keys [date title]} :frontmatter
+  (let [{{:keys [date title publishDate]} :frontmatter
          :as parsed} (cm/parse-md md {:lower-fns lower-fns})
-        date-str (format-simple-date date)
+        date-str (format-simple-date (or date publishDate))
         ;; hack to avoid making a cybermonday PR
         top-level-lis (filter top-level-li? (-> parsed :body))
         parsed (if (seq top-level-lis)

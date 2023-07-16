@@ -1,7 +1,18 @@
-#+TITLE: Setting up mu4e with iCloud custom domains with Doom Emacs on Arch Linux
-#+DATE: <2022-04-18 Mon 20:32>
-#+OPTIONS: toc:nil ':nil `:nil -:nil title:t date:t
+#+title: Posts
+#+hugo_base_dir: resources/
+#+hugo_front_matter_format: yaml
 
+* Posts
+** TODO (unordered) Thoughts on task ordering
+:PROPERTIES:
+:EXPORT_FILE_NAME: task-ordering
+:EXPORT_HUGO_PUBLISHDATE: <2023-07-16 Sun>
+:END:
+** Setting up mu4e with iCloud custom domains with Doom Emacs on Arch Linux
+:PROPERTIES:
+:EXPORT_FILE_NAME: mu4e_doom_emacs
+:EXPORT_HUGO_PUBLISHDATE: <2022-04-18 Mon 20:32>
+:END:
 Here's how I set up =mu4e= with Doom Emacs on Arch Linux for my custom domain
 hosted on iCloud. I'm using =mbsync=, =mu=, and =msmpt=. I originally went with
 a systemd timer as detailed in the first two sections as recommended in the [[https://wiki.archlinux.org/title/isync#Calling_mbsync_automatically][Arch
@@ -9,7 +20,7 @@ wiki]], but =mu4e= actually has a built-in functionality to deal with this for u
 Note that what I've written here is the /minimum/ I needed to do to actually
 sync, send, and read emails from =emacs=. There's a lot more you can do.
 
-* Configuration files
+*** Configuration files
 
 In =init.el=, under =:email=
 #+begin_src emacs-lisp
@@ -131,7 +142,7 @@ I was originally using =gpg= as described by Erich Grunewald in his very helpful
 [[https://www.erichgrunewald.com/posts/setting-up-gmail-in-doom-emacs-using-mbsync-and-mu4e/#(optionally)-store-your-password-in-an-encrypted-file][post]], but unlocking my yubikey every five minutes became a pain and I figured my
 login keychain was secure enough for my (unsophisticated) threat model.
 
-* Install and enable packages
+*** Install and enable packages
 
 #+begin_src bash
 yay mbsync
@@ -151,7 +162,7 @@ doom sync
 
 At this point you can run =emacs=, =<SPC> o m=, and get to emailin'!
 
-* Moving away from systemd
+*** Moving away from systemd
 
 This was working fine but I wasn't getting in-=emacs= notifications when new
 emails came in, even though =mbsync= was running on schedule! So I got rid of
@@ -166,7 +177,7 @@ my =config.el=:
 
 I restarted =emacs= and I was good to go.
 
-* Resources
+*** Resources
 Tecosaur's awe-inspiring [[https://tecosaur.github.io/emacs-config/config.html#fetching-systemd][config]]
 
 The already-mentioned [[https://www.erichgrunewald.com/posts/setting-up-gmail-in-doom-emacs-using-mbsync-and-mu4e/#(optionally)-store-your-password-in-an-encrypted-file][post]] from Erich Grunewald
@@ -176,3 +187,132 @@ The Doom Emacs =mu4e= module [[https://github.com/hlissner/doom-emacs/tree/devel
 [[https://github.com/kzar/davemail/blob/main/.mbsyncrc][davemail]]
 
 This [[https://macowners.club/posts/email-emacs-mu4e-macos/#storing-trusted-root-certificates][article]], though it focuses on macOS
+** Using CLJS and shadow-cljs for serverless DigitalOcean Functions
+:PROPERTIES:
+:EXPORT_FILE_NAME: cljs-digitalocean-serverless
+:EXPORT_HUGO_PUBLISHDATE: <2023-01-11 Wed 20:08>
+:END:
+
+DigitalOcean (DO) [[https://www.digitalocean.com/products/functions][Functions]]: "a serverless computing solution that runs on-demand, enabling you to focus on your code, scale instantly with confidence, and save costs by eliminating the need to maintain servers." Since I'm a fanatic, I would like to write some Clojure for my serverless use case. Because DO offers Node as a runtime, we're able to use ClojureScript to write code and deploy it to the serverless, er, server.
+
+Source code for this blog post is [[https://git.sr.ht/~luciano/cljs-digitalocean-serverless-function][available]].
+
+You'll need a DO account. Log in, select the appropriate team, then select =Functions= on the left-hand column. Create a function namespace and you're ready to go.
+
+Next we need the =doctl= binary. Here's what I did:
+#+begin_src bash
+brew install doctl
+doctl auth init
+doctl serverless install
+doctl serverless connect
+#+end_src
+
+This gets you authenticated with DO so you can deploy from the command line.
+
+#+begin_src bash
+npx create-cljs-project do_serverless
+cd do_serverless
+#+end_src
+
+Now, let's edit the generated =shadow.cljs= a bit. Add this map as the value under =:builds=:
+#+begin_src clojure
+{:core {:target :node-script
+         :main core/main
+         :output-to "packages/do-serverless/core/core.js"}}
+#+end_src
+
+Create =src/main/core.cljs= and define =main= in it:
+#+begin_src clojure
+(ns core)
+
+(defn main [])
+#+end_src
+
+Create =packages/do-serverless/core/package.json= with this in it:
+#+begin_src json
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "CLJS on DO!",
+  "main": "core.js",
+  "dependencies": {
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {}
+}
+#+end_src
+
+Lastly, create =project.yml=:
+#+begin_src yaml
+packages:
+  - name: do-serverless
+    actions:
+      - name: core
+        runtime: nodejs:default
+#+end_src
+
+OK! Let's see where we're at:
+#+begin_src bash
+shadow-cljs release core
+doctl serverless deploy .
+#+end_src
+
+Now we can go to the Functions tab on DO's site and run our function by first going to the function namespace, clicking on the name of the function, and hitting Run. I get this error:
+#+begin_src txt
+2023-01-12T11:14:08.172732642Z stdout: Action entrypoint 'main' is not a function.
+#+end_src
+What tha...
+
+At this point, I dug around and found that DO maintains a bunch of sample functions. Going to the [[https://web.archive.org/web/20220728083446/https://github.com/digitalocean/sample-functions-nodejs-qrcode/blob/main/packages/qr/qr/qr.js][Node one]], we see this:
+#+begin_src javascript
+exports.main = (args) => { ... }
+#+end_src
+
+Huh. OK, so let's do that in our example, =src/main/core.cljs=:
+#+begin_src clojurescript
+(ns core)
+
+(defn main [& args]
+  (println "hello!")
+  (println "args: " args))
+
+(set! js/exports.main main)
+#+end_src
+
+And re-build and deploy.
+#+begin_src
+2023-01-12T11:22:14.933096349Z stdout: hello!
+2023-01-12T11:22:14.933797937Z stdout: args:  nil
+2023-01-12T11:22:14.961195498Z stdout: hello!
+2023-01-12T11:22:14.982016323Z stdout: args:  (#js {} ... // output truncated
+#+end_src
+
+Ok, so when our function executes, our =main= gets executed twice. I don't know why this happens. If I run our compiled javascript file locally with =node=, I only see one execution:
+#+begin_src
+$ node packages/do-serverless/core/core.js
+hello!
+args:  nil
+#+end_src
+
+So, OK, some detail that's above my head. My use case for serverless would, uh, not do well with running everything twice. So, what to do?
+
+Well, we know whatever we tell =shadow= our =main= is will get run. And we also know whatever we tell DO our main is (the =js/exports.main= bit) will also run. Well, I only care about the DO side of things!
+
+#+begin_src clojurescript
+(ns core)
+
+(defn my-actual-function [& args]
+  (println "hello!")
+  (println "args: " args))
+
+(defn main [])
+
+(set! js/exports.main my-actual-function)
+#+end_src
+
+#+begin_src
+2023-01-12T11:28:57.786063804Z stdout: hello!
+2023-01-12T11:28:57.793552189Z stdout: args:  (#js {} ... // output truncated
+#+end_src
+
+Neat!
