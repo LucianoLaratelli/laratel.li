@@ -1,8 +1,8 @@
 ---
 title: "Task ordering"
 author: ["Luciano Laratelli"]
-publishDate: 2023-07-16T00:00:00-04:00
-draft: true
+publishDate: 2023-07-18T09:21:00-04:00
+draft: false
 ---
 
 Lily and I wear [retainers](https://web.archive.org/web/20230717004606/https://www.shutterstock.com/image-photo/two-invisible-dental-teeth-aligners-on-1807717714) every night. We clean them daily using a regular toothbrush and liquid hand soap. Cleaning these retainers at the end of the day, before bed, is one of my least favorite chores. I dealt with that for a long time! I would delay, put it off, getting in to bed fifteen or twenty minutes later than I would have if I would have just washed the damn things as soon as I finished flossing and brushing my teeth. For a while, I tried cleaning the retainers before the flossing and tooth brushing, but that didn't improve things. After a while I figured out a way to resolve my issue: I now clean our retainers _in the morning_, immediately after brushing my teeth. It's the easiest thing in the world at that point in the day, but feels impossible at night.
