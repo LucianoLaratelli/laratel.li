@@ -71,3 +71,6 @@
   [:td {:style {:vertical-align "top"
                 :height "0"}}
    content])
+
+(defn prod? []
+  (= (System/getenv "LI_LARATEL_ENV") "prod"))

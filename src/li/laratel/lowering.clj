@@ -2,7 +2,8 @@
   (:require
    [clojure.string :as str]
    [clygments.core :as clygments]
-   [cybermonday.core :as cm]))
+   [cybermonday.core :as cm]
+   [li.laratel.util :refer [prod?]]))
 
 (def footnote-count-for-post (atom 1))
 
@@ -95,9 +96,11 @@
 (defn parse [md]
   (let [{{:keys [date title publishDate draft]} :frontmatter
          :as parsed} (cm/parse-md md {:lower-fns lower-fns})]
-    (when-not draft
+    (when (or
+           (and (prod?) (not draft))
+           (not (prod?)))
       (let [date-str (format-simple-date (or date publishDate))
-        ;; hack to avoid making a cybermonday PR
+            ;; hack to avoid making a cybermonday PR
             top-level-lis (filter top-level-li? (-> parsed :body))
             parsed (if (seq top-level-lis)
                      (assoc parsed :body
