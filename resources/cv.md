@@ -9,22 +9,20 @@ date: 2023-03-22
 ### Dwolla
 
 - Software Engineer
-- April 2022 -> Present
+- April 2022 -> September 2023
 - Fully remote
 
-Built out API endpoints with API Gateway and TypeScript for internal microservices deployed using Serverless as part of an event-driven architecture.
+I was on the five-person team that built out [Dwolla Connect](https://www.dwolla.com/dwolla-connect/), a new payment-processing API. It’s an event-driven system built using the [Serverless ](https://www.serverless.com/) framework to configure AWS Lambda, SQS/SNS, and DynamoDB. We wrote the system in TypeScript using the [fp-ts](https://gcanti.github.io/fp-ts/) typed functional programming library.
 
-Wrote new microservices from request validation and parsing to triggering business logic in other services using SNS and SQS, down to storing data using DynamoDB.
+Became a resource for the team on fp-ts. I wrote an internal document on best practices for this library.
 
-Maintained existing Scala microservices, using the Cats and Cats Effect libraries.
+Contributed to internal RFCs on topics including improving microservice testing, platform alerting, runtime validation (using [Zod](https://zod.dev/)), and sandbox simulations.
 
-Contributed to design of an external API for a new initiative. Helped determine layout of DynamoDB tables using single-table design principles.
+Designed and implemented a load-testing plan for Dwolla Connect, yielding actionable, data-backed performance improvements that lowered response times by 25% for our most critical workloads. I built this system in Clojure and scaled it to 30 transactions per second before switching to generate requests for use with the [vegeta](https://github.com/tsenart/vegeta) load testing tool.
 
-Became a resource for the team on the [fp-ts](https://gcanti.github.io/fp-ts/) typed functional programming library. I wrote an internal document on best practices for this library.
+Wrote a visualization tool for the new system that parsed the Serverless YAML files and wrote [D2](https://d2lang.com/) markup to generate diagrams of the new Dwolla Connect system. This resulting diagrams aided design discussions and helped team members in understanding the system. I identified critical subsystems and generated individual diagrams for those in addition to the primary “whole system” diagram.
 
-Took ownership of internal developer experience, including writing a plugin for the Scala build tool to maintain git hooks (for use with formatters) after identifying that a suitable tool didn't exist.
-
-Contributed to internal RFCs on improving microservice testing and platform alerting.
+Maintained and expanded legacy Scala microservices, using the Cats and Cats Effect libraries.
 
 ### Flexibits, Inc.
 
@@ -32,11 +30,19 @@ Contributed to internal RFCs on improving microservice testing and platform aler
 - March 2021 -> April 2022
 - Fully remote
 
-I was the main developer working on Fantastical for the Apple Watch, and maintained Fantastical's Shortcuts since implementing them for macOS. I implemented a lot of the new features Apple introduced in 2021: Quick Note, Shortcuts on macOS, time-sensitive notifications, and privacy-sensitive widgets.
+Wrote code across the stack and for all supported devices using Objective-C, Swift, and SwiftUI.
 
-Some examples of my work on the UI side are fixing the bugs introduced by watchOS8 and iOS 15, adding support for item creation and list refresh on the Watch, and implementing context menus for item templates.
+Owned the implementation and deployment of new API integrations for Microsoft Graph and Google People. - Debugged and resolved complex, multi-platform syncing bugs (Apple Watch/iPhone, iPhone/Mac).
 
-On the business logic side, I implemented new API integrations for Microsoft Graph and Google People, debugged and resolved complex sync bugs between iOS and watchOS, extended Fantastical's parser, dealt with bugs regarding event ordering on the Watch, added new AppleScript functionality, and implemented custom week numbering.
+Implemented custom week numbering (and learned just how frustrating date math could be!)
+
+Main developer in charge of new features and bug fixes for the Apple Watch version of Fantastical.
+
+Ported Shortcuts to macOS, extending them with new Shortcuts.
+
+<!-- Some examples of my work on the UI side are fixing the bugs introduced by watchOS8 and iOS 15, adding support for item creation and list refresh on the Watch, and implementing context menus for item templates. -->
+
+<!-- On the business logic side, I implemented new API integrations for Microsoft Graph and Google People, debugged and resolved complex sync bugs between iOS and watchOS, extended Fantastical's parser, dealt with bugs regarding event ordering on the Watch, added new AppleScript functionality, and implemented custom week numbering. -->
 
 ## Personal Information
 
@@ -61,7 +67,7 @@ Languages spoken:
 
 I've worked professionally with SQL, TypeScript, Swift, Objective-C, Scala, and Clojure(Script).
 
-I used C, C++, Python, and Bash when I in graduate school and when I was doing computational chemistry research.
+I used C, C++, Python, and Bash when I was in graduate school and when I was doing computational chemistry research.
 
 I can hack around in HTML and CSS, but not professionally. I also have a good bit of LaTeX experience due to my stint in academia.
 
@@ -80,7 +86,7 @@ I spent a good bit of time in school working with CUDA and MPI, but it's been a 
 
 ### Operating Systems
 
-I'm highly proficient in the usage and configuration of Arch Linux, the Debian-based Linux distributions, and macOS. I used to be pretty good with Windows, too, but it's been years since I used it. Recently I've been hacking around with GNU Guix System for my home server.
+I'm proficient in the usage and configuration of Arch Linux, the Debian-based Linux distributions, and macOS. I used to be pretty good with Windows, too, but it's been years since I used it. Recently I've been hacking around with GNU Guix System for my home server.
 
 ## Projects
 
