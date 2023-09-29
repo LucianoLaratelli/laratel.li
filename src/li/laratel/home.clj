@@ -1,6 +1,6 @@
 (ns li.laratel.home
-  (:require [clojure.string :as str]
-            [li.laratel.util :refer [pars site-page]]))
+  (:require
+   [li.laratel.util :refer [pars site-page]]))
 
 (defn spaced [& strings]
   (interleave strings (repeat " ")))

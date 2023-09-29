@@ -112,7 +112,7 @@ And re-build and deploy.
 
 Ok, so when our function executes, our `main` gets executed twice. I don't know why this happens. If I run our compiled javascript file locally with `node`, I only see one execution:
 
-```nil
+```bash
 $ node packages/do-serverless/core/core.js
 hello!
 args:  nil
