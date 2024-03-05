@@ -72,7 +72,6 @@
   ;; reason. Didn't want to spend time debugging
   (let [[_ _ content] (cm/parse-body content {:markdown/link-ref lower-link-ref})
         content (conj content [:span " "] [:a {:href (str "#fnref-" id)} "↩"])]
-    (println content)
     [:li {:id (str "fn-" id)}
      [:div {"display" "inline"} content]]))
 

@@ -4,7 +4,9 @@ html {
 
 pre,
 code {
-  font: 0.8em Monaco, monospace;
+  font:
+    0.8em Monaco,
+    monospace;
   font-family: Monaco, monospace;
 }
 
@@ -45,3 +47,31 @@ ol.footnote {
 /* ol.footnote li { */
 /*   list-style-position: inside; */
 /* } */
+
+td.listing-row {
+  vertical-align: top;
+  height: 0;
+}
+
+td.pad-right {
+  padding-right: 0.5em;
+}
+
+td.pad-left {
+  padding-left: 0.5em;
+}
+
+table.listing-table {
+  border-collapse: separate;
+  border-spacing: 0 1em;
+}
+
+img.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img.max-width-gif-316 {
+  max-width: 316px;
+}

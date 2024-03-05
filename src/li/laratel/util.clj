@@ -49,7 +49,7 @@
     [:a.in-nav {:href "/"} "Home"]
     [:a.in-nav {:href "/blog"} "Blog"]
     [:a.in-nav {:href "/cv"} "CV"]
-    ;; [:a.in-nav {:href "/programs"} "Programs"]
+    [:a.in-nav {:href "/programs"} "Programs"]
     ;; [:a.in-nav {:href "/projects"} "Projects"]
     ]])
 

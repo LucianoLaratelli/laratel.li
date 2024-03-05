@@ -6,7 +6,7 @@
    [li.laratel.cv :as cv]
    [li.laratel.home :as home]
    [li.laratel.lowering :as lowering]
-   ;; [li.laratel.programs.programs :as programs]
+   [li.laratel.programs.programs :as programs]
    [org.httpkit.server :as http]
    [reitit.ring :as ring]
    [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
@@ -52,11 +52,10 @@
                           :parameters {:path {:blog-post-id string?}}}]]
 
       ["cv" {:get cv/cv}]
-      ;; ["programs"
-      ;;  ["" {:get programs/programs}]
-      ;;  ["/:program-id" {:get programs/program
-      ;;                   :parameters {:path {:program-id string?}}}]]
-      ]])
+      ["programs"
+       ["" {:get programs/programs}]
+       ["/:program-id" {:get programs/program
+                        :parameters {:path {:program-id string?}}}]]]])
 
    (ring/routes
      ;; Handle trailing slash in routes - add it + redirect to it

@@ -14,16 +14,14 @@
      {:title "Luciano Laratelli's Blog"
       :description "Listing of Luciano Laratelli's blog posts"
       :has-code? nil}
-     [:p
-      [:table {:style
-               {:border-collapse "collapse"}}
+     [:table.listing-table
 
-       (for [date ordered-dates]
-         (let [{:keys [date-str title blog-post-id]} (get posts-by-date date)]
-           [:tr
-            (table-row date-str)
-            (table-row
-             [:a {:href (str "/blog/" blog-post-id)} title])]))]])))
+      (for [date ordered-dates]
+        (let [{:keys [date-str title blog-post-id]} (get posts-by-date date)]
+          [:tr.listing-row
+           [:td.listing-row.pad-right date-str]
+           [:td.listing-row.pad-left
+            [:a {:href (str "/blog/" blog-post-id)} title]]]))])))
 
 (defn blog-post [{{:keys [blog-post-id]} :path-params}]
   (let [{:keys [body title description date-str]}
