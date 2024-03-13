@@ -1,0 +1,6 @@
+app = "luciano-laratelli"
+primary_region = "mia"
+
+[http_service]
+  internal_port = 8043
+  force_https = true

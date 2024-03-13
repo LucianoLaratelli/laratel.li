@@ -1,0 +1,99 @@
+/* css I wrote */
+:root {
+    border-top: none;
+}
+
+header {
+    padding-bottom: 0;
+}
+
+html {
+    overflow-y: overlay;
+}
+
+pre,
+code {
+    font:
+        0.8em Monaco,
+        monospace;
+    font-family: Monaco, monospace;
+}
+
+a.in-nav {
+    padding-right: 8px;
+}
+
+.aal_anchor {
+    float: left;
+    padding-right: 4px;
+    margin-left: -20px;
+    line-height: 1;
+    text-decoration: none;
+}
+.aal_anchor:focus {
+    outline: 0;
+}
+.aal_svg {
+    vertical-align: middle;
+    visibility: hidden;
+    display: inline-block;
+    fill: currentColor;
+}
+h1:hover .aal_svg,
+h2:hover .aal_svg,
+h3:hover .aal_svg,
+h4:hover .aal_svg,
+h5:hover .aal_svg,
+h6:hover .aal_svg {
+    visibility: visible;
+}
+
+ol.footnotes-list {
+    column-count: 1;
+}
+
+/* ol.footnote li { */
+/*   list-style-position: inside; */
+/* } */
+
+td.listing-row {
+    vertical-align: top;
+    height: 0;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+td.pad-right {
+    padding-right: 0.5em;
+}
+
+td.pad-left {
+    padding-left: 0.5em;
+}
+
+img.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.max-width-gif-316 {
+    max-width: 316px;
+}
+
+.next-prev-post-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.next-prev-post-container > div {
+    display: flex;
+    flex-basis: 50%;
+    margin-right: 0.5em;
+}
+
+div.next-prev {
+    margin-right: 0.25em;
+}

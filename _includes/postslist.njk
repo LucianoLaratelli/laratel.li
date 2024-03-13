@@ -1,0 +1,16 @@
+{%- css %}.postlist { counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }} }{% endcss %}
+<p>
+<table class="listing-table">
+{% for post in postslist | reverse %}
+
+  <tr class="listing-row">
+    <td class="listing-row pad-right no-wrap monospace">{{post.date | readableDate}}</td>
+    <td class="listing-row pad-left">
+		<a href="{{ post.url }}" class="postlist-link">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
+</td>
+
+  </tr>
+
+{% endfor %}
+
+</p>

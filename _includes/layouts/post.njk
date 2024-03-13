@@ -1,0 +1,50 @@
+---
+layout: layouts/base.njk
+---
+{# Only include the syntax highlighter CSS on blog posts #}
+{%- css %}{% include "public/css/prism-diff.css" %}{%- endcss %}
+{%- css %}{% include "public/css/syntax-highlighting.css" %}{%- endcss %}
+
+<h2>{{ title }}</h2>
+
+<h4><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></h4>
+<ul class="post-metadata">
+	{%- for tag in tags | filterTagList %}
+	{%- set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+	<li><a href="{{ tagUrl }}" class="post-tag">{{ tag }}</a>{%- if not loop.last %}, {% endif %}</li>
+	{%- endfor %}
+</ul>
+
+<hr/>
+
+{% if content | toc %}
+    <details>
+    <summary>Table of Contents</summary>
+    {{ content | toc | safe }}
+    </details>
+{% endif %}
+
+{{ content | safe }}
+
+<hr/>
+
+{%- if collections.posts %}
+{%- set previousPost = collections.posts | getPreviousCollectionItem %}
+{%- set nextPost = collections.posts | getNextCollectionItem %}
+{%- if nextPost or previousPost %}
+<div class="next-prev-post-container">
+	{%- if previousPost %}
+        <div>
+            <div class="next-prev"> <b>Previous</b>: </div>
+            <a href="{{ previousPost.url }}">{{ previousPost.data.title }}</a>
+        </div>
+    {% endif %}
+	{%- if nextPost %}
+        <div>
+            <div class="next-prev"> <b>Next</b>: </div>
+            <a href="{{ nextPost.url }}">{{ nextPost.data.title }}</a>
+        </div>
+    {% endif %}
+</div>
+{%- endif %}
+{%- endif %}

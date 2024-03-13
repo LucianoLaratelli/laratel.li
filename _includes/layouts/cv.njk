@@ -1,0 +1,12 @@
+---
+layout: layouts/base.njk
+---
+
+<h4><time datetime="{{ page.date | htmlDateString }}">Last updated: {{ page.date | readableDate }}</time></h4>
+
+<details>
+<summary>Table of Contents</summary>
+{{ content | toc | safe }}
+</details>
+
+{{ content | safe }}

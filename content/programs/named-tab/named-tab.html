@@ -1,0 +1,73 @@
+---
+title: "NamedTab"
+date: 2024-03-05
+---
+
+<h2>NamedTab</h2>
+<h4><time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time></h4>
+
+This page lets you set the name of the current tab. It uses <a href="https://shields.io/">Shields.io</a> to
+generate a favicon and will maintain a consistent color for the same string.
+
+<div>
+    Your desired tab name:
+    <input id="the-input"> </input>
+    <script>
+        const updateTitle = () => {
+            const title = document.getElementById('the-input').value;
+            document.title = title;
+            var searchParams = new URLSearchParams(window.location.search);
+
+            //https://stackoverflow.com/a/41542008
+            searchParams.set("title", title);
+            var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+            history.pushState(null, '', newRelativePathQuery);
+        }
+
+        // https://stackoverflow.com/a/260876
+        const changeFavicon = (src) => {
+            var link = document.querySelector("link[rel~='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.head.appendChild(link);
+            }
+            link.href = src;
+        }
+
+        // https://stackoverflow.com/a/16348977
+        const stringToColor = (str) => {
+            let hash = 0;
+            str.split('').forEach(char => {
+                hash = char.charCodeAt(0) + ((hash << 5) - hash)
+            })
+            let color = ''
+            for (let i = 0; i < 3; i++) {
+                const value = (hash >> (i * 8)) & 0xff
+                color += value.toString(16).padStart(2, '0')
+            }
+            return color
+        }
+
+        const updateFavicon = () => {
+            const title = document.getElementById('the-input').value;
+            const color = stringToColor(title);
+            const faviconUrl = `https://img.shields.io/badge/${title[0].toUpperCase()}-${color}`
+
+            changeFavicon(faviconUrl);
+        }
+
+        document.getElementById('the-input').addEventListener("change", updateTitle);
+        document.getElementById('the-input').addEventListener("change", updateFavicon);
+
+        if ('URLSearchParams' in window) {
+            var searchParams = new URLSearchParams(window.location.search)
+            const title = searchParams.get("title");
+            if (title) {
+                document.getElementById('the-input').value = title;
+                updateTitle();
+                updateFavicon();
+            }
+        }
+    </script>
+</div>

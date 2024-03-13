@@ -1,0 +1,28 @@
+---
+layout: layouts/home.njk
+eleventyNavigation:
+    key: Programs
+    description: Listing of
+    order: 5
+---
+
+{% set programsList = collections.programs %}
+
+<p> These are one-off, small, or otherwise "not project" programs that I want to
+be readily accessible for myself; they're utilities that scratch an itch. Some
+have associated blog posts. </p>
+
+<hr/>
+
+<table >
+{% for program in programsList | reverse %}
+
+  <tr class="listing-row">
+    <td class="listing-row pad-right no-wrap">{{program.date | readableDate}}</td>
+    <td class="listing-row pad-left">
+		<a href="{{ program.url }}" class="postlist-link">{% if program.data.title %}{{ program.data.title }}{% else %}<code>{{ program.url }}</code>{% endif %}</a>
+</td>
+
+  </tr>
+
+{% endfor %}

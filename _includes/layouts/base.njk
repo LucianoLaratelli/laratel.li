@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="{{ metadata.language }}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{ title or metadata.title }}</title>
+		<meta name="description" content="{{ description or metadata.description }}">
+
+		<link rel="me" href="https://parens.social/@luciano">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="{{ metadata.title }}">
+
+		<meta name="generator" content="{{ eleventy.generator }}">
+
+		{%- css %}{% include "public/css/index.css" %}{% endcss %}
+		{%- css %}{% include "public/css/11ty.css" %}{% endcss %}
+		{%- css %}{% include "public/css/custom.css" %}{% endcss %}
+
+		<style>{% getBundle "css" %}</style>
+
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<script defer data-domain="luciano.laratel.li" src="https://plausible.io/js/script.js"></script>
+		{% metagen
+		title=title or metadata.title,
+		desc=description or metadata.description,
+		url= metadata.url + page.url,
+		img="/favicon-32x32.png"
+		%}
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">{{ metadata.title }}</a>
+
+			{#- Read more about `eleventy-navigation` at https://www.11ty.dev/docs/plugins/navigation/ #}
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					{%- for entry in collections.all | eleventyNavigation %}
+						<li class="nav-item">
+							<a href="{{ entry.url }}"
+							   {% if entry.url == page.url %}
+							   aria-current="page"
+							   {% endif %}
+							>
+								{{ entry.title }}
+							</a>
+						</li>
+					{%- endfor %}
+
+					<li class="nav-item">
+						<a href="/feed/feed.xml">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width=17.5 height=20><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+								<style>
+								 path {
+									 fill: black;
+								 }
+								 @media (prefers-color-scheme: dark) {
+									 path { fill: white; }
+								 }
+								</style>
+								<path d="M0 64C0 46.3 14.3 32 32 32c229.8 0 416 186.2 416 416c0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96C14.3 96 0 81.7 0 64zM0 416a64 64 0 1 1 128 0A64 64 0 1 1 0 416zM32 160c159.1 0 288 128.9 288 288c0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			{{ content | safe }}
+		</main>
+
+		<footer></footer>
+
+		<!-- Current page: {{ page.url | htmlBaseUrl }} -->
+	</body>
+</html>
