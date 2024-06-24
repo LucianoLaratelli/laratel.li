@@ -1,6 +1,6 @@
 ---
 title: "Setting up unattended access for our building's keypad"
-autor: ["Luciano Laratelli"]
+author: ["Luciano Laratelli"]
 date: 2024-03-13
 draft: false
 description: I wired up our building's keypad to a twilio phone number (and accompanying Twilio Function) to set up unattended access for emergencies.
