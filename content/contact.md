@@ -14,10 +14,10 @@ You can reach me by email at [luciano@laratel.li](mailto:luciano@laratel.li).
 Historical email addresses (do not use these)
 </summary>
 <ul>
-<li>luciano <at> laratelli <dot> com</li>
-<li>laratelli <at> mail <dot> usf <dot> edu</li>
-<li>luciano <dot> e <dot> laratelli <at> gmail <dot> com</li>
-<li>luciano <dot> e <dot> laratelli <at> outlook <dot> com</li>
+<li>luciano <code>at</code> laratelli <code>dot</code> com</li>
+<li>laratelli <code>at</code> mail <code>dot</code> usf <code>dot</code> edu</li>
+<li>luciano <code>dot</code> e <code>dot</code> laratelli <code>at</code> gmail <code>dot</code> com</li>
+<li>luciano <code>dot</code> e <code>dot</code> laratelli <code>at</code> outlook <code>dot</code> com</li>
 </ul>
 </details>
 
