@@ -168,7 +168,7 @@ I worked as an undergraduate researcher in Dr. James Leahy's lab, under the dire
 - May 2014 -> August 2014
 - Miami, FL
 
-I worked as a (very green) undergraduate in the lab of Dr. Eckhard Podack. I started with doing basic cell culture, mostly on agar plates, and eventually transitioned to more advanced cultures and working with animal models (particularly mice), where I studied the effects of a novel anticancer drug intended to treat lung cancer.
+I worked as a (very green) undergraduate in the lab of Dr. Eckhard Podack, under the direction of Ryan McCormack. I started with doing basic cell culture, mostly on agar plates, and eventually transitioned to more advanced cultures and working with animal models (particularly mice), where I studied the effects of a novel anticancer drug intended to treat lung cancer.
 
 ## Awards and Scholarships
 
